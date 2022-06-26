@@ -16,6 +16,7 @@ module.exports = (api) => {
           alias: {
             '@components': './src/components',
             '@navigators': './src/navigators',
+            '@styles': './src/styles',
           },
         },
       ],

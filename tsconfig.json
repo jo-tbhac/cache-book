@@ -4,6 +4,7 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@navigators/*": ["src/navigators/*"],
+      "@styles/*": ["src/styles/*"],
     },
   },
   "extends": "expo/tsconfig.base"
