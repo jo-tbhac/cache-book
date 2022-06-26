@@ -1,4 +1,10 @@
 {
-  "compilerOptions": {},
+  "compilerOptions": {
+    "baseUrl": "./", /* Base directory to resolve non-absolute module names. */
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@navigators/*": ["src/navigators/*"],
+    },
+  },
   "extends": "expo/tsconfig.base"
 }
