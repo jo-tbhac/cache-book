@@ -1,18 +1,250 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useMemo, useRef } from 'react';
+import {
+  StyleSheet, Text, View, TextInput, Pressable,
+} from 'react-native';
+import dayjs from 'dayjs';
+import FormGroupContainer from '@components/commons/FormGroupContainer';
+import RadioButton from '@components/commons/RadioButton';
+import InputAccessoryView from '@components/commons/InputAccessoryView';
+import Picker, { PickerItem } from '@components/commons/Picker';
+import Button from '@components/commons/Button';
+import { MOCK_CATEGORIES } from '@store/categories/types';
+import { MOCK_PAYMENT_METHODS } from '@store/methods/types';
+import { colors } from '@styles/color';
 
-const RecordScreen = () => (
-  <View style={styles.container}>
-    <Text>Record</Text>
-  </View>
-);
+export enum RecordTypes {
+  incomes = 'incomes',
+  expenses = 'expenses',
+}
+
+const RecordScreen = () => {
+  const itemValueInputRef = useRef<TextInput>(null);
+
+  const [recordType, setRecordType] = useState<RecordTypes>(RecordTypes.expenses);
+  const [itemName, setItemName] = useState('');
+  const [itemValue, setItemValue] = useState(0);
+  const [selectedCategoryValue, setSelectedCategoryValue] = useState<string | null>(null);
+  const [selectedMethodValue, setSelectedMethodValue] = useState<string | null>(
+    MOCK_PAYMENT_METHODS[0].id,
+  );
+
+  const [categoryPickerVisible, setCategoryPickerVisible] = useState(false);
+  const [methodPickerVisible, setMethodPickerVisible] = useState(false);
+
+  const itemValueLabel = useMemo(() => {
+    if (!itemValue) {
+      return '';
+    }
+
+    return String(itemValue);
+  }, [itemValue]);
+
+  const categoryPickerItems = useMemo(() => {
+    const itemList = MOCK_CATEGORIES.map(
+      (category) => ({ label: category.name, value: category.id }),
+    );
+
+    return [{ label: 'なし', value: '' }, ...itemList];
+  }, []);
+
+  const methodPickerItems = useMemo(
+    () => MOCK_PAYMENT_METHODS.map((method) => ({ label: method.name, value: method.id })),
+    [],
+  );
+
+  const selectedCategoryLabel = useMemo(() => {
+    const selectedCategory = MOCK_CATEGORIES.find(
+      (category) => category.id === selectedCategoryValue,
+    );
+
+    return selectedCategory ? selectedCategory.name : '';
+  }, [selectedCategoryValue]);
+
+  const selectedMethodLabel = useMemo(() => {
+    const selectedMethod = MOCK_PAYMENT_METHODS.find((method) => method.id === selectedMethodValue);
+
+    return selectedMethod ? selectedMethod.name : '';
+  }, [selectedMethodValue]);
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.title}>
+          {dayjs().format('YYYY/MM/DD')}
+          の記録
+        </Text>
+      </View>
+      <View style={styles.formContainer}>
+        <FormGroupContainer
+          containerStyle={styles.recordTypeCntainer}
+          style={styles.recordType}
+          onPress={() => setRecordType(RecordTypes.expenses)}
+        >
+          <RadioButton checked={recordType === RecordTypes.expenses} />
+          <Text style={styles.recordTypeLabel}>支出</Text>
+        </FormGroupContainer>
+        <FormGroupContainer
+          containerStyle={styles.recordTypeCntainer}
+          style={styles.recordType}
+          onPress={() => setRecordType(RecordTypes.incomes)}
+        >
+          <RadioButton checked={recordType === RecordTypes.incomes} />
+          <Text style={styles.recordTypeLabel}>収入</Text>
+        </FormGroupContainer>
+      </View>
+      <View style={styles.formContainer}>
+        <TextInput
+          style={styles.itemNameInput}
+          selectionColor={colors.textInput.caret}
+          placeholderTextColor={colors.placeholder.default}
+          placeholder="お店や品目"
+          returnKeyType="next"
+          value={itemName}
+          onChangeText={(text) => setItemName(text)}
+          inputAccessoryViewID="RecordScreenInput"
+          onSubmitEditing={() => itemValueInputRef.current.focus()}
+        />
+      </View>
+      <View style={styles.formContainer}>
+        <TextInput
+          ref={itemValueInputRef}
+          style={styles.itemValueInput}
+          selectionColor={colors.textInput.caret}
+          placeholderTextColor={colors.placeholder.default}
+          placeholder="金額"
+          returnKeyType="next"
+          keyboardType="numeric"
+          value={itemValueLabel}
+          onChangeText={(text) => setItemValue(parseInt(text, 10))}
+          inputAccessoryViewID="RecordScreenInput"
+        />
+        <InputAccessoryView nativeID="RecordScreenInput" />
+      </View>
+      <View style={styles.formContainer}>
+        <Pressable style={styles.categoryInput} onPress={() => setCategoryPickerVisible(true)}>
+          {selectedCategoryLabel
+            ? <Text style={styles.categoryInputText}>{selectedCategoryLabel}</Text>
+            : <Text style={styles.placeholder}>カテゴリー</Text>}
+          <Picker
+            show={categoryPickerVisible}
+            selectedValue={selectedCategoryValue}
+            onValueChange={(value) => setSelectedCategoryValue(value)}
+            onDonePress={() => setCategoryPickerVisible(false)}
+          >
+            {categoryPickerItems.map((item) => (
+              <PickerItem key={item.value} label={item.label} value={item.value} />
+            ))}
+          </Picker>
+        </Pressable>
+        <Pressable style={styles.methodInput} onPress={() => setMethodPickerVisible(true)}>
+          {selectedMethodLabel
+            ? <Text style={styles.methodInputText}>{selectedMethodLabel}</Text>
+            : <Text style={styles.placeholder}>支払い方法</Text>}
+          <Picker
+            show={methodPickerVisible}
+            selectedValue={selectedMethodValue}
+            onValueChange={(value) => setSelectedMethodValue(value)}
+            onDonePress={() => setMethodPickerVisible(false)}
+          >
+            {methodPickerItems.map((item) => (
+              <PickerItem key={item.value} label={item.label} value={item.value} />
+            ))}
+          </Picker>
+        </Pressable>
+      </View>
+      <View style={styles.formContainer}>
+        <Button onPress={() => {}} label="追加" containerStyle={styles.buttonContainer} />
+      </View>
+      <View style={{ flex: 1 }} />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
+    backgroundColor: colors.screen.background,
     justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  header: {
+    marginBottom: 30,
+    width: '100%',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  formContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 30,
+    width: '100%',
+  },
+  recordTypeCntainer: {
+    paddingHorizontal: 30,
+    paddingVertical: 5,
+  },
+  recordType: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  recordTypeLabel: {
+    color: colors.font.default,
+    fontSize: 16,
+    marginLeft: 5,
+  },
+  itemNameInput: {
+    borderBottomColor: colors.textInput.border,
+    borderBottomWidth: 1,
+    flex: 1,
+    color: colors.font.default,
+    fontSize: 20,
+    paddingLeft: 3,
+    paddingVertical: 3,
+  },
+  itemValueInput: {
+    borderBottomColor: colors.textInput.border,
+    borderBottomWidth: 1,
+    color: colors.font.default,
+    flex: 1,
+    fontSize: 20,
+    paddingLeft: 3,
+    paddingVertical: 3,
+  },
+  categoryInput: {
+    borderBottomColor: colors.textInput.border,
+    borderBottomWidth: 1,
+    flex: 1,
+    paddingVertical: 3,
+    paddingHorizontal: 3,
+  },
+  categoryInputText: {
+    color: colors.font.default,
+    fontSize: 20,
+  },
+  methodInput: {
+    borderBottomColor: colors.textInput.border,
+    borderBottomWidth: 1,
+    flex: 1,
+    marginLeft: 20,
+    paddingVertical: 3,
+    paddingHorizontal: 3,
+  },
+  methodInputText: {
+    color: colors.font.default,
+    fontSize: 20,
+  },
+  buttonContainer: {
+    width: 150,
+  },
+  placeholder: {
+    color: colors.placeholder.default,
+    fontSize: 20,
   },
 });
 
