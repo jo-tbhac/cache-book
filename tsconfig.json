@@ -5,6 +5,7 @@
       "@components/*": ["src/components/*"],
       "@navigators/*": ["src/navigators/*"],
       "@styles/*": ["src/styles/*"],
+      "@store/*": ["src/store/*"],
     },
   },
   "extends": "expo/tsconfig.base"

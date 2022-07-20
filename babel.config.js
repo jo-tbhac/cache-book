@@ -17,6 +17,7 @@ module.exports = (api) => {
             '@components': './src/components',
             '@navigators': './src/navigators',
             '@styles': './src/styles',
+            '@store': './src/store',
           },
         },
       ],
