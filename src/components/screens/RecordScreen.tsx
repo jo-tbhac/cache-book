@@ -2,14 +2,15 @@ import React, { useState, useMemo, useRef } from 'react';
 import {
   StyleSheet, Text, View, TextInput, Pressable,
 } from 'react-native';
+import { useRecoilValue } from 'recoil';
 import dayjs from 'dayjs';
 import FormGroupContainer from '@components/commons/FormGroupContainer';
 import RadioButton from '@components/commons/RadioButton';
 import InputAccessoryView from '@components/commons/InputAccessoryView';
 import Picker, { PickerItem } from '@components/commons/Picker';
 import Button from '@components/commons/Button';
-import { MOCK_CATEGORIES } from '@store/categories/types';
-import { MOCK_PAYMENT_METHODS } from '@store/methods/types';
+import { categoriesSelector } from '@store/categories/selector';
+import { methodsSelector } from '@store/methods/selector';
 import { colors } from '@styles/color';
 
 export enum RecordTypes {
@@ -18,6 +19,9 @@ export enum RecordTypes {
 }
 
 const RecordScreen = () => {
+  const categories = useRecoilValue(categoriesSelector);
+  const methods = useRecoilValue(methodsSelector);
+
   const itemValueInputRef = useRef<TextInput>(null);
 
   const [recordType, setRecordType] = useState<RecordTypes>(RecordTypes.expenses);
@@ -25,7 +29,7 @@ const RecordScreen = () => {
   const [itemValue, setItemValue] = useState(0);
   const [selectedCategoryValue, setSelectedCategoryValue] = useState<string | null>(null);
   const [selectedMethodValue, setSelectedMethodValue] = useState<string | null>(
-    MOCK_PAYMENT_METHODS[0].id,
+    categories[0].id,
   );
 
   const [categoryPickerVisible, setCategoryPickerVisible] = useState(false);
@@ -40,31 +44,31 @@ const RecordScreen = () => {
   }, [itemValue]);
 
   const categoryPickerItems = useMemo(() => {
-    const itemList = MOCK_CATEGORIES.map(
+    const itemList = categories.map(
       (category) => ({ label: category.name, value: category.id }),
     );
 
     return [{ label: 'なし', value: '' }, ...itemList];
-  }, []);
+  }, [categories]);
 
   const methodPickerItems = useMemo(
-    () => MOCK_PAYMENT_METHODS.map((method) => ({ label: method.name, value: method.id })),
-    [],
+    () => methods.map((method) => ({ label: method.name, value: method.id })),
+    [methods],
   );
 
   const selectedCategoryLabel = useMemo(() => {
-    const selectedCategory = MOCK_CATEGORIES.find(
+    const selectedCategory = categories.find(
       (category) => category.id === selectedCategoryValue,
     );
 
     return selectedCategory ? selectedCategory.name : '';
-  }, [selectedCategoryValue]);
+  }, [categories, selectedCategoryValue]);
 
   const selectedMethodLabel = useMemo(() => {
-    const selectedMethod = MOCK_PAYMENT_METHODS.find((method) => method.id === selectedMethodValue);
+    const selectedMethod = methods.find((method) => method.id === selectedMethodValue);
 
     return selectedMethod ? selectedMethod.name : '';
-  }, [selectedMethodValue]);
+  }, [methods, selectedMethodValue]);
 
   return (
     <View style={styles.container}>

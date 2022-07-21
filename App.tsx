@@ -2,16 +2,19 @@ import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { PortalProvider } from '@gorhom/portal';
+import { RecoilRoot } from 'recoil';
 import ButtomTabNavigator from '@navigators/ButtomTabNavigator';
 
 const App = () => (
-  <PortalProvider>
-    <NavigationContainer>
-      <SafeAreaView style={styles.container}>
-        <ButtomTabNavigator />
-      </SafeAreaView>
-    </NavigationContainer>
-  </PortalProvider>
+  <RecoilRoot>
+    <PortalProvider>
+      <NavigationContainer>
+        <SafeAreaView style={styles.container}>
+          <ButtomTabNavigator />
+        </SafeAreaView>
+      </NavigationContainer>
+    </PortalProvider>
+  </RecoilRoot>
 );
 
 const styles = StyleSheet.create({
