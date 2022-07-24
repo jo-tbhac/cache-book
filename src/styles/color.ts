@@ -4,6 +4,7 @@ const OVERLAY = 'rgba(0, 0, 0, 0.4)';
 
 export const colors = {
   font: {
+    alert: '#d7254e',
     default: '#666',
   },
   placeholder: {
@@ -38,6 +39,10 @@ export const colors = {
   inputAccessoryView: {
     background: '#e6e6e6',
     buttonText: '#387ef5',
+  },
+  list: {
+    background: '#fff',
+    border: BORDER_COLOR,
   },
   picker: {
     background: '#fff',

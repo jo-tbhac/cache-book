@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react';
 import {
-  StyleSheet, Text, View, TextInput, Pressable,
+  StyleSheet, Text, View, TextInput, Pressable, FlatList,
 } from 'react-native';
 import { useRecoilValue } from 'recoil';
 import dayjs from 'dayjs';
@@ -9,22 +9,22 @@ import RadioButton from '@components/commons/RadioButton';
 import InputAccessoryView from '@components/commons/InputAccessoryView';
 import Picker, { PickerItem } from '@components/commons/Picker';
 import Button from '@components/commons/Button';
+import RecordListItem from '@components/records/ListItem';
 import { categoriesSelector } from '@store/categories/selector';
 import { methodsSelector } from '@store/methods/selector';
+import { dailyRecordsSelector } from '@store/records/selector';
+import { RecordTypes, RecordType } from '@store/records/types';
 import { colors } from '@styles/color';
-
-export enum RecordTypes {
-  incomes = 'incomes',
-  expenses = 'expenses',
-}
+import { BASE_PADDING } from '@styles/index';
 
 const RecordScreen = () => {
   const categories = useRecoilValue(categoriesSelector);
   const methods = useRecoilValue(methodsSelector);
+  const records = useRecoilValue(dailyRecordsSelector);
 
   const itemValueInputRef = useRef<TextInput>(null);
 
-  const [recordType, setRecordType] = useState<RecordTypes>(RecordTypes.expenses);
+  const [recordType, setRecordType] = useState<RecordType>(RecordTypes.expenses);
   const [itemName, setItemName] = useState('');
   const [itemValue, setItemValue] = useState(0);
   const [selectedCategoryValue, setSelectedCategoryValue] = useState<string | null>(null);
@@ -159,7 +159,20 @@ const RecordScreen = () => {
       <View style={styles.formContainer}>
         <Button onPress={() => {}} label="追加" containerStyle={styles.buttonContainer} />
       </View>
-      <View style={{ flex: 1 }} />
+      <FlatList
+        data={records}
+        renderItem={({ item }) => (
+          <RecordListItem
+            name={item.name}
+            value={item.value}
+            type={item.type}
+            method={item.method}
+            category={item.category}
+          />
+        )}
+        style={styles.recordList}
+        contentContainerStyle={styles.recordListContainer}
+      />
     </View>
   );
 };
@@ -170,11 +183,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.screen.background,
     justifyContent: 'center',
-    paddingHorizontal: 20,
     paddingVertical: 20,
   },
   header: {
     marginBottom: 30,
+    paddingHorizontal: BASE_PADDING,
     width: '100%',
   },
   title: {
@@ -186,6 +199,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 30,
+    paddingHorizontal: BASE_PADDING,
     width: '100%',
   },
   recordTypeCntainer: {
@@ -249,6 +263,13 @@ const styles = StyleSheet.create({
   placeholder: {
     color: colors.placeholder.default,
     fontSize: 20,
+  },
+  recordList: {
+    flex: 1,
+    width: '100%',
+  },
+  recordListContainer: {
+    paddingHorizontal: 5,
   },
 });
 
