@@ -70,6 +70,18 @@ const RecordScreen = () => {
     return selectedMethod ? selectedMethod.name : '';
   }, [methods, selectedMethodValue]);
 
+  const totalExpenses = useMemo(() => {
+    let total = 0;
+    for (let i = 0; i < records.length; i += 1) {
+      const record = records[i];
+      if (record.type === RecordTypes.expenses) {
+        total += record.value;
+      }
+    }
+
+    return total;
+  }, [records]);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -173,6 +185,10 @@ const RecordScreen = () => {
         style={styles.recordList}
         contentContainerStyle={styles.recordListContainer}
       />
+      <View style={styles.totalContainer}>
+        <Text style={styles.totalLabel}>支出合計</Text>
+        <Text style={styles.totalValue}>{totalExpenses.toLocaleString('ja-jp')}</Text>
+      </View>
     </View>
   );
 };
@@ -270,6 +286,25 @@ const styles = StyleSheet.create({
   },
   recordListContainer: {
     paddingHorizontal: 5,
+  },
+  totalContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: BASE_PADDING,
+    paddingTop: 20,
+  },
+  totalLabel: {
+    color: colors.font.default,
+    fontSize: 20,
+    fontWeight: 'bold',
+    flex: 1,
+  },
+  totalValue: {
+    color: colors.font.default,
+    fontSize: 20,
+    fontWeight: 'bold',
+    flex: 1,
+    textAlign: 'right',
   },
 });
 
