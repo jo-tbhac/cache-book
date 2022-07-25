@@ -11,7 +11,7 @@ export interface IORecord {
   value: number;
   type: RecordType;
   categoryId: number | null;
-  methodId: string;
+  methodId: number;
   date: Date;
 }
 

@@ -28,7 +28,7 @@ const RecordScreen = () => {
   const [itemName, setItemName] = useState('');
   const [itemValue, setItemValue] = useState(0);
   const [selectedCategoryValue, setSelectedCategoryValue] = useState<number | null>(null);
-  const [selectedMethodValue, setSelectedMethodValue] = useState<string | null>(null);
+  const [selectedMethodValue, setSelectedMethodValue] = useState<number | null>(null);
 
   const [categoryPickerVisible, setCategoryPickerVisible] = useState(false);
   const [methodPickerVisible, setMethodPickerVisible] = useState(false);

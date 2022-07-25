@@ -1,9 +1,14 @@
 import { selector } from 'recoil';
-import { MOCK_PAYMENT_METHODS } from '@store/methods/types';
+import { getMethods } from '@db/methods/query';
 import { RecoilKeys } from '@store/types';
 
 export const methodsSelector = selector({
   key: RecoilKeys.methods,
-  // TODO Get from Database
-  get: () => MOCK_PAYMENT_METHODS,
+  get: async () => {
+    const methods = await getMethods().catch((error) => {
+      throw error;
+    });
+
+    return methods;
+  },
 });
