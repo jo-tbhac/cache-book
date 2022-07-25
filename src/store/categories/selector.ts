@@ -1,9 +1,14 @@
 import { selector } from 'recoil';
-import { MOCK_CATEGORIES } from '@store/categories/types';
+import { getCategories } from '@db/categories/query';
 import { RecoilKeys } from '@store/types';
 
 export const categoriesSelector = selector({
   key: RecoilKeys.categories,
-  // TODO Get from Database
-  get: () => MOCK_CATEGORIES,
+  get: async () => {
+    const categories = await getCategories().catch((error) => {
+      throw error;
+    });
+
+    return categories;
+  },
 });

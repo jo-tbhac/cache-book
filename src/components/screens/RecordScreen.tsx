@@ -27,10 +27,8 @@ const RecordScreen = () => {
   const [recordType, setRecordType] = useState<RecordType>(RecordTypes.expenses);
   const [itemName, setItemName] = useState('');
   const [itemValue, setItemValue] = useState(0);
-  const [selectedCategoryValue, setSelectedCategoryValue] = useState<string | null>(null);
-  const [selectedMethodValue, setSelectedMethodValue] = useState<string | null>(
-    categories[0].id,
-  );
+  const [selectedCategoryValue, setSelectedCategoryValue] = useState<number | null>(null);
+  const [selectedMethodValue, setSelectedMethodValue] = useState<string | null>(null);
 
   const [categoryPickerVisible, setCategoryPickerVisible] = useState(false);
   const [methodPickerVisible, setMethodPickerVisible] = useState(false);
