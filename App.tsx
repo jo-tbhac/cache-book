@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import { PortalProvider } from '@gorhom/portal';
 import { RecoilRoot } from 'recoil';
-import { createTable } from '@db/index';
+import { createTable } from '@db/query';
 import ButtomTabNavigator from '@navigators/ButtomTabNavigator';
 
 SplashScreen.preventAutoHideAsync();
