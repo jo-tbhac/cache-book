@@ -1,9 +1,12 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, {
+  useState, useMemo, useRef, useCallback,
+} from 'react';
 import {
   StyleSheet, Text, View, TextInput, Pressable, FlatList,
 } from 'react-native';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import dayjs from 'dayjs';
+import { insertRecord } from '@db/records/query';
 import FormGroupContainer from '@components/commons/FormGroupContainer';
 import RadioButton from '@components/commons/RadioButton';
 import InputAccessoryView from '@components/commons/InputAccessoryView';
@@ -11,16 +14,19 @@ import Picker, { PickerItem } from '@components/commons/Picker';
 import Button from '@components/commons/Button';
 import RecordListItem from '@components/records/ListItem';
 import { categoriesSelector } from '@store/categories/selector';
+import { selectedDateState } from '@store/date/atom';
 import { methodsSelector } from '@store/methods/selector';
-import { dailyRecordsSelector } from '@store/records/selector';
-import { RecordTypes, RecordType } from '@store/records/types';
+import { dailyRecordsState } from '@store/records/atom';
+import { RecordTypes, RecordType, IORecordListItem } from '@store/records/types';
 import { colors } from '@styles/color';
 import { BASE_PADDING } from '@styles/index';
 
 const RecordScreen = () => {
+  const selectedDate = useRecoilValue(selectedDateState);
+
   const categories = useRecoilValue(categoriesSelector);
   const methods = useRecoilValue(methodsSelector);
-  const records = useRecoilValue(dailyRecordsSelector);
+  const [records, setRecords] = useRecoilState(dailyRecordsState);
 
   const itemValueInputRef = useRef<TextInput>(null);
 
@@ -28,10 +34,15 @@ const RecordScreen = () => {
   const [itemName, setItemName] = useState('');
   const [itemValue, setItemValue] = useState(0);
   const [selectedCategoryValue, setSelectedCategoryValue] = useState<number | null>(null);
-  const [selectedMethodValue, setSelectedMethodValue] = useState<number | null>(null);
+  const [selectedMethodValue, setSelectedMethodValue] = useState<number>(methods[0].id);
 
   const [categoryPickerVisible, setCategoryPickerVisible] = useState(false);
   const [methodPickerVisible, setMethodPickerVisible] = useState(false);
+
+  const selectedDateString = useMemo(
+    () => dayjs(selectedDate).format('YYYY/MM/DD'),
+    [selectedDate],
+  );
 
   const itemValueLabel = useMemo(() => {
     if (!itemValue) {
@@ -80,11 +91,48 @@ const RecordScreen = () => {
     return total;
   }, [records]);
 
+  const addRecord = useCallback(() => {
+    insertRecord({
+      name: itemName,
+      value: itemValue,
+      type: recordType,
+      date: selectedDate,
+      categoryId: selectedCategoryValue,
+      methodId: selectedMethodValue,
+    })
+      .then((insertItem) => {
+        const newItem: IORecordListItem = {
+          id: insertItem.id,
+          name: insertItem.name,
+          value: insertItem.value,
+          type: insertItem.type,
+          category: selectedCategoryLabel,
+          method: selectedMethodLabel,
+          date: insertItem.date,
+        };
+        setRecords([...records, newItem]);
+      })
+      .catch(() => {
+        // TODO handle error
+      });
+  }, [
+    itemName,
+    itemValue,
+    recordType,
+    records,
+    selectedCategoryValue,
+    selectedDate,
+    selectedMethodValue,
+    selectedCategoryLabel,
+    selectedMethodLabel,
+    setRecords,
+  ]);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>
-          {dayjs().format('YYYY/MM/DD')}
+          {selectedDateString}
           の記録
         </Text>
       </View>
@@ -167,7 +215,7 @@ const RecordScreen = () => {
         </Pressable>
       </View>
       <View style={styles.formContainer}>
-        <Button onPress={() => {}} label="追加" containerStyle={styles.buttonContainer} />
+        <Button onPress={addRecord} label="追加" containerStyle={styles.buttonContainer} />
       </View>
       <FlatList
         data={records}

@@ -1,19 +1,22 @@
 import { selector } from 'recoil';
 import dayjs from 'dayjs';
-import { selectedDateState } from '@store/records/atom';
-import { MOCK_RECORDS, IORecord, IORecordListItem } from '@store/records/types';
+import { getRecordsBy } from '@db/records/query';
+import { selectedDateState } from '@store/date/atom';
+import { IORecord, IORecordListItem } from '@store/records/types';
 import { categoriesSelector } from '@store/categories/selector';
 import { methodsSelector } from '@store/methods/selector';
 import { RecoilKeys } from '@store/types';
 
 export const dailyRecordsSelector = selector({
-  key: RecoilKeys.dailyRecords,
-  // TODO Get from Database
-  get: ({ get }) => {
-    const selectedDate = dayjs(get(selectedDateState)).startOf('day');
-    const filteredRecords = MOCK_RECORDS.filter(
-      (record) => selectedDate.isSame(dayjs(record.date).startOf('day')),
-    );
+  key: RecoilKeys.dailyRecordsLoader,
+  get: async ({ get }) => {
+    const selectedDate = dayjs(get(selectedDateState));
+    const from = selectedDate.startOf('day').toDate();
+    const to = selectedDate.endOf('day').toDate();
+
+    const records = await getRecordsBy({ from, to }).catch((error) => {
+      throw error;
+    });
 
     const categories = get(categoriesSelector);
     const methods = get(methodsSelector);
@@ -30,7 +33,7 @@ export const dailyRecordsSelector = selector({
       methodsIdMap[method.id] = method;
     }
 
-    return filteredRecords.map((record: IORecord) => {
+    return records.map((record: IORecord) => {
       const recordListItem: IORecordListItem = {
         ...record,
         category: categoriesIdMap[record.categoryId]?.name || '',

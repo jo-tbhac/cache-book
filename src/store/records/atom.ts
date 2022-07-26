@@ -1,7 +1,8 @@
 import { atom } from 'recoil';
 import { RecoilKeys } from '@store/types';
+import { dailyRecordsSelector } from '@store/records/selector';
 
-export const selectedDateState = atom({
-  key: RecoilKeys.selectedDate,
-  default: new Date(),
+export const dailyRecordsState = atom({
+  key: RecoilKeys.dailyRecords,
+  default: dailyRecordsSelector,
 });
