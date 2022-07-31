@@ -3,11 +3,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import CategoryScreen from '@components/screens/CategoryScreen';
 import SettingScreen from '@components/screens/SettingScreen';
 import { pages } from '@navigators/pages';
+import { colors } from '@styles/color';
 
 const Stack = createStackNavigator();
 
 const SettingStackNavigator = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{ headerBackTitleVisible: false, headerTintColor: colors.header.fill }}
+  >
     <Stack.Screen
       name={pages.setting.name}
       component={SettingScreen}

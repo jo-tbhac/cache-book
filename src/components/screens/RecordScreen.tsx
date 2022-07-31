@@ -13,7 +13,7 @@ import InputAccessoryView from '@components/commons/InputAccessoryView';
 import Picker, { PickerItem } from '@components/commons/Picker';
 import Button from '@components/commons/Button';
 import RecordListItem from '@components/records/ListItem';
-import { categoriesSelector } from '@store/categories/selector';
+import { categoriesState } from '@store/categories/atom';
 import { selectedDateState } from '@store/date/atom';
 import { methodsSelector } from '@store/methods/selector';
 import { dailyRecordsState } from '@store/records/atom';
@@ -24,7 +24,7 @@ import { BASE_PADDING } from '@styles/index';
 const RecordScreen = () => {
   const selectedDate = useRecoilValue(selectedDateState);
 
-  const categories = useRecoilValue(categoriesSelector);
+  const categories = useRecoilValue(categoriesState);
   const methods = useRecoilValue(methodsSelector);
   const [records, setRecords] = useRecoilState(dailyRecordsState);
 

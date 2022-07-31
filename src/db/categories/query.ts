@@ -38,8 +38,57 @@ export const insertCategory = (values: { name: string }) => {
           query,
           [values.name],
           (_, result) => {
-            const insertedItem: Category = result.rows.item(0);
+            if (result.insertId) {
+              const insertedItem: Category = { ...values, id: result.insertId };
+              resolve(insertedItem);
+            } else {
+              reject(new Error('fail to get insertId'));
+            }
+          },
+        );
+      },
+      (error) => {
+        reject(error);
+      },
+    );
+  });
+};
+
+export const updateCategory = (id: number, values: { name: string }) => {
+  const query = 'UPDATE categories SET name = ? WHERE id = ?';
+  const db = getDB();
+
+  return new Promise<Category>((resolve, reject) => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          query,
+          [values.name, id],
+          () => {
+            const insertedItem: Category = { ...values, id };
             resolve(insertedItem);
+          },
+        );
+      },
+      (error) => {
+        reject(error);
+      },
+    );
+  });
+};
+
+export const deleteCategory = (id: number) => {
+  const query = 'DELETE FROM categories WHERE id = ?';
+  const db = getDB();
+
+  return new Promise<number>((resolve, reject) => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          query,
+          [id],
+          () => {
+            resolve(id);
           },
         );
       },

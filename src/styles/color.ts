@@ -16,7 +16,7 @@ export const colors = {
   },
   header: {
     background: '#fff',
-    fill: '#333',
+    fill: MAIN_COLOR,
   },
   screen: {
     background: '#fff',

@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { getRecordsBy } from '@db/records/query';
 import { selectedDateState } from '@store/date/atom';
 import { IORecord, IORecordListItem } from '@store/records/types';
-import { categoriesSelector } from '@store/categories/selector';
+import { categoriesState } from '@store/categories/atom';
 import { methodsSelector } from '@store/methods/selector';
 import { RecoilKeys } from '@store/types';
 
@@ -18,7 +18,7 @@ export const dailyRecordsSelector = selector({
       throw error;
     });
 
-    const categories = get(categoriesSelector);
+    const categories = get(categoriesState);
     const methods = get(methodsSelector);
 
     const categoriesIdMap = {};
