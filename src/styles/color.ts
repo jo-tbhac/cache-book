@@ -24,10 +24,7 @@ export const colors = {
   },
   bottomTab: {
     background: '#eee',
-    fill: '#555',
-  },
-  activeTabIcon: {
-    fill: '#555',
+    fill: MAIN_COLOR,
   },
   inactiveTabIcon: {
     fill: '#ddd',
@@ -41,8 +38,10 @@ export const colors = {
     buttonText: '#387ef5',
   },
   list: {
+    angleIconFill: '#999',
     background: '#fff',
     border: BORDER_COLOR,
+    iconFill: MAIN_COLOR,
   },
   picker: {
     background: '#fff',

@@ -11,4 +11,12 @@ export const pages = {
     name: 'category',
     title: 'カテゴリー',
   },
+  setting: {
+    name: 'setting',
+    title: '設定',
+  },
+  settingStack: {
+    name: 'settingStack',
+    title: '設定',
+  },
 };
