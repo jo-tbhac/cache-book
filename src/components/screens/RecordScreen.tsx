@@ -12,6 +12,7 @@ import RadioButton from '@components/commons/RadioButton';
 import InputAccessoryView from '@components/commons/InputAccessoryView';
 import Picker, { PickerItem } from '@components/commons/Picker';
 import Button from '@components/commons/Button';
+import RecordHeader from '@components/records/Header';
 import RecordListItem from '@components/records/ListItem';
 import { categoriesState } from '@store/categories/atom';
 import { selectedDateState } from '@store/date/atom';
@@ -130,12 +131,7 @@ const RecordScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>
-          {selectedDateString}
-          の記録
-        </Text>
-      </View>
+      <RecordHeader dateString={selectedDateString} />
       <View style={styles.formContainer}>
         <FormGroupContainer
           containerStyle={styles.recordTypeCntainer}
@@ -246,15 +242,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.screen.background,
     justifyContent: 'center',
     paddingVertical: 20,
-  },
-  header: {
-    marginBottom: 30,
-    paddingHorizontal: BASE_PADDING,
-    width: '100%',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
   },
   formContainer: {
     alignItems: 'center',

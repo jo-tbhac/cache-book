@@ -4,28 +4,46 @@ import { RecordType, RecordTypes } from '@store/records/types';
 import { colors } from '@styles/color';
 
 interface RecordListItemProps {
+  dateString?: string;
+  previousDateString?: string;
   name: string;
   value: number;
   type: RecordType;
-  category: string;
+  category?: string;
   method: string;
+  totalExpenses?: number;
 }
 
 const RecordListItem = (props: RecordListItemProps) => {
   const {
+    dateString,
+    previousDateString,
     name,
     value,
     type,
     method,
     category,
+    totalExpenses,
   } = props;
 
   const fontColor = {
     color: type === RecordTypes.incomes ? colors.font.default : colors.font.alert,
   };
 
+  const dateVisible = dateString && dateString === previousDateString;
+  const showDate = dateString !== undefined;
+  const showCategory = category !== undefined;
+  const showTotalExpenses = totalExpenses !== undefined;
+
   return (
     <View style={styles.container}>
+      {showDate && (
+        <View style={styles.date}>
+          <Text style={[styles.dateText, fontColor, dateVisible && { color: 'transparent' }]}>
+            {dateString}
+          </Text>
+        </View>
+      )}
       <View style={styles.name}>
         <Text style={[styles.nameText, fontColor]}>{name}</Text>
       </View>
@@ -35,9 +53,18 @@ const RecordListItem = (props: RecordListItemProps) => {
       <View style={styles.method}>
         <Text style={[styles.methodText, fontColor]}>{method}</Text>
       </View>
-      <View style={styles.category}>
-        <Text style={[styles.categoryText, fontColor]}>{category}</Text>
-      </View>
+      {showTotalExpenses && (
+        <View style={styles.totalExpenses}>
+          <Text style={[styles.totalExpensesText, fontColor]}>
+            {totalExpenses.toLocaleString('ja-jp')}
+          </Text>
+        </View>
+      )}
+      {showCategory && (
+        <View style={styles.category}>
+          <Text style={[styles.categoryText, fontColor]}>{category}</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -50,6 +77,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     flexDirection: 'row',
     paddingVertical: 10,
+  },
+  date: {
+    paddingHorizontal: 3,
+  },
+  dateText: {
+    fontSize: 14,
   },
   name: {
     flex: 2,
@@ -67,8 +100,8 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   category: {
-    flex: 1,
     paddingHorizontal: 3,
+    width: 80,
   },
   categoryText: {
     fontSize: 14,
@@ -79,6 +112,14 @@ const styles = StyleSheet.create({
   },
   methodText: {
     fontSize: 14,
+  },
+  totalExpenses: {
+    paddingHorizontal: 3,
+    width: 80,
+  },
+  totalExpensesText: {
+    fontSize: 14,
+    textAlign: 'right',
   },
 });
 
