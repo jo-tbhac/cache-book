@@ -15,7 +15,7 @@ import Button from '@components/commons/Button';
 import RecordListItem from '@components/records/ListItem';
 import { categoriesState } from '@store/categories/atom';
 import { selectedDateState } from '@store/date/atom';
-import { methodsSelector } from '@store/methods/selector';
+import { methodsState } from '@store/methods/atom';
 import { dailyRecordsState } from '@store/records/atom';
 import { RecordTypes, RecordType, IORecordListItem } from '@store/records/types';
 import { colors } from '@styles/color';
@@ -25,7 +25,7 @@ const RecordScreen = () => {
   const selectedDate = useRecoilValue(selectedDateState);
 
   const categories = useRecoilValue(categoriesState);
-  const methods = useRecoilValue(methodsSelector);
+  const methods = useRecoilValue(methodsState);
   const [records, setRecords] = useRecoilState(dailyRecordsState);
 
   const itemValueInputRef = useRef<TextInput>(null);

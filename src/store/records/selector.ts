@@ -4,7 +4,7 @@ import { getRecordsBy } from '@db/records/query';
 import { selectedDateState } from '@store/date/atom';
 import { IORecord, IORecordListItem } from '@store/records/types';
 import { categoriesState } from '@store/categories/atom';
-import { methodsSelector } from '@store/methods/selector';
+import { methodsState } from '@store/methods/atom';
 import { RecoilKeys } from '@store/types';
 
 export const dailyRecordsSelector = selector({
@@ -19,7 +19,7 @@ export const dailyRecordsSelector = selector({
     });
 
     const categories = get(categoriesState);
-    const methods = get(methodsSelector);
+    const methods = get(methodsState);
 
     const categoriesIdMap = {};
     for (let i = 0; i < categories.length; i += 1) {

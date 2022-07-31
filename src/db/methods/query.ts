@@ -38,8 +38,57 @@ export const insertMethod = (values: { name: string }) => {
           query,
           [values.name],
           (_, result) => {
-            const insertedItem: PaymentMethod = result.rows.item(0);
+            if (result.insertId) {
+              const insertedItem: PaymentMethod = { ...values, id: result.insertId };
+              resolve(insertedItem);
+            } else {
+              reject(new Error('fail to get insertId'));
+            }
+          },
+        );
+      },
+      (error) => {
+        reject(error);
+      },
+    );
+  });
+};
+
+export const updateMethod = (id: number, values: { name: string }) => {
+  const query = 'UPDATE methods SET name = ? WHERE id = ?';
+  const db = getDB();
+
+  return new Promise<PaymentMethod>((resolve, reject) => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          query,
+          [values.name, id],
+          () => {
+            const insertedItem: PaymentMethod = { ...values, id };
             resolve(insertedItem);
+          },
+        );
+      },
+      (error) => {
+        reject(error);
+      },
+    );
+  });
+};
+
+export const deleteMethod = (id: number) => {
+  const query = 'DELETE FROM methods WHERE id = ?';
+  const db = getDB();
+
+  return new Promise<number>((resolve, reject) => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          query,
+          [id],
+          () => {
+            resolve(id);
           },
         );
       },

@@ -3,17 +3,17 @@ import { StyleSheet, View, TextInput } from 'react-native';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { colors } from '@styles/color';
 
-interface CategoryListItemProps {
+interface MethodListItemProps {
   id: number | null;
   name: string;
-  saveCategory: (params: { id: number | null; name: string }) => void;
+  saveMethod: (params: { id: number | null; name: string }) => void;
 }
 
-const CategoryListItem = (props: CategoryListItemProps) => {
+const MethodListItem = (props: MethodListItemProps) => {
   const {
     id,
     name,
-    saveCategory,
+    saveMethod,
   } = props;
 
   const [nameState, setNameState] = useState(name);
@@ -26,7 +26,7 @@ const CategoryListItem = (props: CategoryListItemProps) => {
     if (name === nameState) {
       return;
     }
-    saveCategory({ id, name: nameState });
+    saveMethod({ id, name: nameState });
 
     if (!id) {
       setNameState('');
@@ -41,7 +41,7 @@ const CategoryListItem = (props: CategoryListItemProps) => {
         onEndEditing={onEndEditing}
         selectionColor={colors.textInput.caret}
         placeholderTextColor={colors.placeholder.default}
-        placeholder="＋カテゴリー名"
+        placeholder="＋支払い方法"
         returnKeyType="done"
         style={styles.textInput}
       />
@@ -77,4 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(CategoryListItem);
+export default React.memo(MethodListItem);
