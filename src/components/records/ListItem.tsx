@@ -50,19 +50,19 @@ const RecordListItem = (props: RecordListItemProps) => {
       <View style={styles.container}>
         {showDate && (
           <View style={styles.date}>
-            <Text style={[styles.dateText, fontColor, dateVisible ? { color: 'transparent' } : undefined]}>
+            <Text style={[styles.dateText, dateVisible ? { color: 'transparent' } : undefined]}>
               {dateString}
             </Text>
           </View>
         )}
         <View style={styles.name}>
-          <Text style={[styles.nameText, fontColor]}>{name}</Text>
+          <Text style={styles.nameText}>{name}</Text>
         </View>
         <View style={styles.value}>
           <Text style={[styles.valueText, fontColor]}>{value.toLocaleString('ja-jp')}</Text>
         </View>
         <View style={styles.method}>
-          <Text style={[styles.methodText, fontColor]}>{method}</Text>
+          <Text style={styles.methodText}>{method}</Text>
         </View>
         {showTotalExpenses && totalExpenses && (
           <View style={styles.totalExpenses}>
@@ -73,7 +73,7 @@ const RecordListItem = (props: RecordListItemProps) => {
         )}
         {showCategory && (
           <View style={styles.category}>
-            <Text style={[styles.categoryText, fontColor]}>{category}</Text>
+            <Text style={styles.categoryText}>{category}</Text>
           </View>
         )}
       </View>
@@ -95,12 +95,14 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 14,
+    color: colors.font.default,
   },
   name: {
     flex: 2,
     paddingHorizontal: 3,
   },
   nameText: {
+    color: colors.font.default,
     fontSize: 14,
   },
   value: {
@@ -116,6 +118,7 @@ const styles = StyleSheet.create({
     width: 80,
   },
   categoryText: {
+    color: colors.font.default,
     fontSize: 14,
   },
   method: {
@@ -123,6 +126,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 3,
   },
   methodText: {
+    color: colors.font.default,
     fontSize: 14,
   },
   totalExpenses: {
