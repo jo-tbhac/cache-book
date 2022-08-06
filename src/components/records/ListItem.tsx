@@ -1,9 +1,13 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import {
+  StyleSheet, View, Text, TouchableOpacity,
+} from 'react-native';
 import { RecordType, RecordTypes } from '@store/records/types';
 import { colors } from '@styles/color';
+import { ACTIVE_OPACITY } from '@styles/index';
 
 interface RecordListItemProps {
+  id: number;
   dateString?: string;
   previousDateString?: string;
   name: string;
@@ -12,10 +16,12 @@ interface RecordListItemProps {
   category?: string;
   method: string;
   totalExpenses?: number;
+  onPress?: (recordId: number) => void;
 }
 
 const RecordListItem = (props: RecordListItemProps) => {
   const {
+    id,
     dateString,
     previousDateString,
     name,
@@ -24,6 +30,7 @@ const RecordListItem = (props: RecordListItemProps) => {
     method,
     category,
     totalExpenses,
+    onPress,
   } = props;
 
   const fontColor = {
@@ -36,36 +43,41 @@ const RecordListItem = (props: RecordListItemProps) => {
   const showTotalExpenses = totalExpenses !== undefined;
 
   return (
-    <View style={styles.container}>
-      {showDate && (
-        <View style={styles.date}>
-          <Text style={[styles.dateText, fontColor, dateVisible && { color: 'transparent' }]}>
-            {dateString}
-          </Text>
+    <TouchableOpacity
+      onPress={() => onPress && onPress(id)}
+      activeOpacity={onPress ? ACTIVE_OPACITY : 1}
+    >
+      <View style={styles.container}>
+        {showDate && (
+          <View style={styles.date}>
+            <Text style={[styles.dateText, fontColor, dateVisible ? { color: 'transparent' } : undefined]}>
+              {dateString}
+            </Text>
+          </View>
+        )}
+        <View style={styles.name}>
+          <Text style={[styles.nameText, fontColor]}>{name}</Text>
         </View>
-      )}
-      <View style={styles.name}>
-        <Text style={[styles.nameText, fontColor]}>{name}</Text>
-      </View>
-      <View style={styles.value}>
-        <Text style={[styles.valueText, fontColor]}>{value.toLocaleString('ja-jp')}</Text>
-      </View>
-      <View style={styles.method}>
-        <Text style={[styles.methodText, fontColor]}>{method}</Text>
-      </View>
-      {showTotalExpenses && (
-        <View style={styles.totalExpenses}>
-          <Text style={[styles.totalExpensesText, fontColor]}>
-            {totalExpenses.toLocaleString('ja-jp')}
-          </Text>
+        <View style={styles.value}>
+          <Text style={[styles.valueText, fontColor]}>{value.toLocaleString('ja-jp')}</Text>
         </View>
-      )}
-      {showCategory && (
-        <View style={styles.category}>
-          <Text style={[styles.categoryText, fontColor]}>{category}</Text>
+        <View style={styles.method}>
+          <Text style={[styles.methodText, fontColor]}>{method}</Text>
         </View>
-      )}
-    </View>
+        {showTotalExpenses && totalExpenses && (
+          <View style={styles.totalExpenses}>
+            <Text style={[styles.totalExpensesText, fontColor]}>
+              {totalExpenses.toLocaleString('ja-jp')}
+            </Text>
+          </View>
+        )}
+        {showCategory && (
+          <View style={styles.category}>
+            <Text style={[styles.categoryText, fontColor]}>{category}</Text>
+          </View>
+        )}
+      </View>
+    </TouchableOpacity>
   );
 };
 

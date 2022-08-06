@@ -12,7 +12,7 @@ export interface IORecord {
   type: RecordType;
   categoryId: number | null;
   methodId: number;
-  date: Date;
+  date: string;
 }
 
 export type IORecordListItem = Omit<IORecord, 'categoryId' | 'methodId'> & {

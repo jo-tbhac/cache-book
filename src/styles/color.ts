@@ -43,6 +43,10 @@ export const colors = {
     border: BORDER_COLOR,
     iconFill: MAIN_COLOR,
   },
+  modal: {
+    background: '#fff',
+    overlay: OVERLAY,
+  },
   picker: {
     background: '#fff',
     border: BORDER_COLOR,
