@@ -5,7 +5,7 @@ import {
 
 type FormGroupContextType = (event: GestureResponderEvent) => void;
 
-export const FormGroupContext = createContext<FormGroupContextType>(null);
+export const FormGroupContext = createContext<FormGroupContextType | null>(null);
 
 interface FormGroupContainerProps {
   containerStyle?: StyleProp<ViewStyle>;

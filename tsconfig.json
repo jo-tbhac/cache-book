@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
     "baseUrl": "./", /* Base directory to resolve non-absolute module names. */
     "paths": {
       "@db/*": ["src/db/*"],
