@@ -19,7 +19,7 @@ export const getRecordsBy = (
   { from, to, categoryId }: { from: Date; to: Date; categoryId?: number },
 ) => {
   const { query, args } = (() => {
-    const baseQuery = ['SELECT * FROM records WHERE date BETWEEN ? AND ?'];
+    const baseQuery = ['SELECT * FROM records WHERE date BETWEEN ? AND ? ORDER BY date ASC'];
     const baseArgs: any[] = [from.toISOString(), to.toISOString()];
 
     if (categoryId) {
