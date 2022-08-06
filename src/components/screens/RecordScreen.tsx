@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { useRecoilState } from 'recoil';
 import { insertRecord } from '@db/records/query';
+import Border from '@components/commons/Border';
 import RecordForm from '@components/records/Form';
 import RecordFormModal from '@components/records/FormModal';
 import RecordHeader from '@components/records/Header';
@@ -12,7 +13,7 @@ import { selectedDateState } from '@store/date/atom';
 import { dailyRecordsState } from '@store/records/atom';
 import { RecordTypes, IORecordListItem, RecordType } from '@store/records/types';
 import { colors } from '@styles/color';
-import { BASE_PADDING } from '@styles/index';
+import { BASE_PADDING, RECORD_LIST_PADDING } from '@styles/index';
 
 const RecordScreen = () => {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
@@ -107,6 +108,7 @@ const RecordScreen = () => {
               onPress={onPressList}
             />
           )}
+          ItemSeparatorComponent={Border}
           style={styles.recordList}
           contentContainerStyle={styles.recordListContainer}
         />
@@ -140,7 +142,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   recordListContainer: {
-    paddingHorizontal: 5,
+    paddingLeft: RECORD_LIST_PADDING,
   },
   totalContainer: {
     flexDirection: 'row',

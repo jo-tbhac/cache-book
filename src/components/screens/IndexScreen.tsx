@@ -2,12 +2,14 @@ import React, { useMemo } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import dayjs from 'dayjs';
+import Border from '@components/commons/Border';
 import RecordHeader from '@components/records/Header';
 import RecordListItem from '@components/records/ListItem';
 import { selectedMonthState } from '@store/date/atom';
 import { monthlyRecordsLoader } from '@store/records/selector';
 import { RecordTypes } from '@store/records/types';
 import { colors } from '@styles/color';
+import { RECORD_LIST_PADDING } from '@styles/index';
 
 const IndexScreen = () => {
   const [selectedMonth, setSelectedMonth] = useRecoilState(selectedMonthState);
@@ -64,6 +66,7 @@ const IndexScreen = () => {
             />
           );
         }}
+        ItemSeparatorComponent={Border}
         style={styles.recordList}
         contentContainerStyle={styles.recordListContainer}
       />
@@ -84,7 +87,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   recordListContainer: {
-    paddingHorizontal: 5,
+    paddingLeft: RECORD_LIST_PADDING,
   },
 });
 

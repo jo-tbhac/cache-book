@@ -33,6 +33,10 @@ export const colors = {
     background: MAIN_COLOR,
     label: '#fff',
   },
+  deleteButton: {
+    background: '#f9254e',
+    label: '#fff',
+  },
   inputAccessoryView: {
     background: '#e6e6e6',
     buttonText: '#387ef5',

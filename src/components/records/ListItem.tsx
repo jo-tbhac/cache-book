@@ -1,10 +1,11 @@
 import React from 'react';
 import {
-  StyleSheet, View, Text, TouchableOpacity,
+  StyleSheet, View, Text, TouchableOpacity, useWindowDimensions,
 } from 'react-native';
+import SwipeListView from '@components/commons/SwipeListView';
 import { RecordType, RecordTypes } from '@store/records/types';
 import { colors } from '@styles/color';
-import { ACTIVE_OPACITY } from '@styles/index';
+import { ACTIVE_OPACITY, RECORD_LIST_PADDING } from '@styles/index';
 
 interface RecordListItemProps {
   id: number;
@@ -33,6 +34,8 @@ const RecordListItem = (props: RecordListItemProps) => {
     onPress,
   } = props;
 
+  const deviceWidth = useWindowDimensions().width;
+
   const fontColor = {
     color: type === RecordTypes.incomes ? colors.font.default : colors.font.alert,
   };
@@ -43,41 +46,43 @@ const RecordListItem = (props: RecordListItemProps) => {
   const showTotalExpenses = totalExpenses !== undefined;
 
   return (
-    <TouchableOpacity
-      onPress={() => onPress && onPress(id)}
-      activeOpacity={onPress ? ACTIVE_OPACITY : 1}
-    >
-      <View style={styles.container}>
-        {showDate && (
-          <View style={styles.date}>
-            <Text style={[styles.dateText, dateVisible ? { color: 'transparent' } : undefined]}>
-              {dateString}
-            </Text>
+    <SwipeListView onPressDelete={() => {}}>
+      <TouchableOpacity
+        onPress={() => onPress && onPress(id)}
+        activeOpacity={onPress ? ACTIVE_OPACITY : 1}
+      >
+        <View style={[styles.container, { width: deviceWidth - RECORD_LIST_PADDING }]}>
+          {showDate && (
+            <View style={styles.date}>
+              <Text style={[styles.dateText, dateVisible ? { color: 'transparent' } : undefined]}>
+                {dateString}
+              </Text>
+            </View>
+          )}
+          <View style={styles.name}>
+            <Text style={styles.nameText}>{name}</Text>
           </View>
-        )}
-        <View style={styles.name}>
-          <Text style={styles.nameText}>{name}</Text>
-        </View>
-        <View style={styles.value}>
-          <Text style={[styles.valueText, fontColor]}>{value.toLocaleString('ja-jp')}</Text>
-        </View>
-        <View style={styles.method}>
-          <Text style={styles.methodText}>{method}</Text>
-        </View>
-        {showTotalExpenses && totalExpenses && (
-          <View style={styles.totalExpenses}>
-            <Text style={[styles.totalExpensesText, fontColor]}>
-              {totalExpenses.toLocaleString('ja-jp')}
-            </Text>
+          <View style={styles.value}>
+            <Text style={[styles.valueText, fontColor]}>{value.toLocaleString('ja-jp')}</Text>
           </View>
-        )}
-        {showCategory && (
-          <View style={styles.category}>
-            <Text style={styles.categoryText}>{category}</Text>
+          <View style={styles.method}>
+            <Text style={styles.methodText}>{method}</Text>
           </View>
-        )}
-      </View>
-    </TouchableOpacity>
+          {showTotalExpenses && totalExpenses && (
+            <View style={styles.totalExpenses}>
+              <Text style={[styles.totalExpensesText, fontColor]}>
+                {totalExpenses.toLocaleString('ja-jp')}
+              </Text>
+            </View>
+          )}
+          {showCategory && (
+            <View style={styles.category}>
+              <Text style={styles.categoryText}>{category}</Text>
+            </View>
+          )}
+        </View>
+      </TouchableOpacity>
+    </SwipeListView>
   );
 };
 
@@ -85,8 +90,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     backgroundColor: colors.list.background,
-    borderBottomColor: colors.list.border,
-    borderBottomWidth: 1,
     flexDirection: 'row',
     paddingVertical: 10,
   },
