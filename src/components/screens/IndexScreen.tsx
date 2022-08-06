@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import dayjs from 'dayjs';
 import RecordHeader from '@components/records/Header';
 import RecordListItem from '@components/records/ListItem';
@@ -10,11 +10,11 @@ import { RecordTypes } from '@store/records/types';
 import { colors } from '@styles/color';
 
 const IndexScreen = () => {
-  const selectedMonth = useRecoilValue(selectedMonthState);
+  const [selectedMonth, setSelectedMonth] = useRecoilState(selectedMonthState);
   const records = useRecoilValue(monthlyRecordsLoader);
 
   const selectedDateString = useMemo(
-    () => dayjs(selectedMonth).format('YYYY/MM'),
+    () => selectedMonth.format('YYYY/MM'),
     [selectedMonth],
   );
 
@@ -33,9 +33,17 @@ const IndexScreen = () => {
     return total;
   };
 
+  const next = () => {
+    setSelectedMonth(selectedMonth.add(1, 'month'));
+  };
+
+  const prev = () => {
+    setSelectedMonth(selectedMonth.subtract(1, 'month'));
+  };
+
   return (
     <View style={styles.container}>
-      <RecordHeader dateString={selectedDateString} />
+      <RecordHeader dateString={selectedDateString} next={next} prev={prev} />
       <FlatList
         data={records}
         renderItem={({ item, index }) => {
@@ -45,6 +53,7 @@ const IndexScreen = () => {
 
           return (
             <RecordListItem
+              id={item.id}
               dateString={dateString}
               previousDateString={previousDateString}
               name={item.name}
