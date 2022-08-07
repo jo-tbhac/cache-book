@@ -99,10 +99,10 @@ const RecordListItem = (props: RecordListItemProps) => {
           <View style={styles.method}>
             <Text style={styles.methodText}>{method}</Text>
           </View>
-          {showTotalExpenses && totalExpenses && (
+          {showTotalExpenses && (
             <View style={styles.totalExpenses}>
               <Text style={[styles.totalExpensesText, fontColor]}>
-                {totalExpenses.toLocaleString('ja-jp')}
+                {totalExpenses?.toLocaleString('ja-jp')}
               </Text>
             </View>
           )}

@@ -1,6 +1,6 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useEffect } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import dayjs from 'dayjs';
 import Border from '@components/commons/Border';
 import RecordHeader from '@components/records/Header';
@@ -14,6 +14,10 @@ import { RECORD_LIST_PADDING } from '@styles/index';
 const IndexScreen = () => {
   const [selectedMonth, setSelectedMonth] = useRecoilState(selectedMonthState);
   const [records, setRecords] = useRecoilState(monthlyRecordsState);
+  const resetRecords = useResetRecoilState(monthlyRecordsState);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(resetRecords, [selectedMonth]);
 
   const selectedDateString = useMemo(
     () => selectedMonth.format('YYYY/MM'),

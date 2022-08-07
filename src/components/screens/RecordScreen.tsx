@@ -1,8 +1,10 @@
-import React, { useMemo, useCallback, useState } from 'react';
+import React, {
+  useMemo, useCallback, useState, useEffect,
+} from 'react';
 import {
   StyleSheet, Text, View, FlatList,
 } from 'react-native';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { insertRecord } from '@db/records/query';
 import Border from '@components/commons/Border';
 import RecordForm from '@components/records/Form';
@@ -18,6 +20,7 @@ import { BASE_PADDING, RECORD_LIST_PADDING } from '@styles/index';
 const RecordScreen = () => {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const [records, setRecords] = useRecoilState(dailyRecordsState);
+  const resetRecords = useResetRecoilState(dailyRecordsState);
 
   const [editRecordId, setEditRecordId] = useState<number | null>(null);
 
@@ -37,6 +40,9 @@ const RecordScreen = () => {
 
     return total;
   }, [records]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(resetRecords, [selectedDate]);
 
   const addRecord = useCallback((params: {
     name: string;
