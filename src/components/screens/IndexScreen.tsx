@@ -1,19 +1,19 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import dayjs from 'dayjs';
 import Border from '@components/commons/Border';
 import RecordHeader from '@components/records/Header';
 import RecordListItem from '@components/records/ListItem';
 import { selectedMonthState } from '@store/date/atom';
-import { monthlyRecordsLoader } from '@store/records/selector';
+import { monthlyRecordsState } from '@store/records/atom';
 import { RecordTypes } from '@store/records/types';
 import { colors } from '@styles/color';
 import { RECORD_LIST_PADDING } from '@styles/index';
 
 const IndexScreen = () => {
   const [selectedMonth, setSelectedMonth] = useRecoilState(selectedMonthState);
-  const records = useRecoilValue(monthlyRecordsLoader);
+  const [records, setRecords] = useRecoilState(monthlyRecordsState);
 
   const selectedDateString = useMemo(
     () => selectedMonth.format('YYYY/MM'),
@@ -34,6 +34,12 @@ const IndexScreen = () => {
 
     return total;
   };
+
+  const onDelete = useCallback((recordId: number) => {
+    setRecords(
+      (currentRecords) => currentRecords.filter((currentRecord) => currentRecord.id !== recordId),
+    );
+  }, [setRecords]);
 
   const next = () => {
     setSelectedMonth(selectedMonth.add(1, 'month'));
@@ -63,6 +69,7 @@ const IndexScreen = () => {
               type={item.type}
               method={item.method}
               totalExpenses={totalExpenses(index, item.method)}
+              onDeleteRecord={onDelete}
             />
           );
         }}

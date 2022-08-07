@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, forwardRef } from 'react';
 import {
   StyleSheet,
   ScrollView,
@@ -15,13 +15,14 @@ interface SwipeListViewProps {
   onPressDelete: () => void;
 }
 
-const SwipeListView = (props: SwipeListViewProps) => {
+const SwipeListView = forwardRef<ScrollView, SwipeListViewProps>((props, ref) => {
   const { children, onPressDelete } = props;
 
   const windowWidth = useWindowDimensions().width;
 
   return (
     <ScrollView
+      ref={ref}
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{ width: windowWidth + SWIPE_LIST_BUTTON_WIDTH }}
@@ -35,7 +36,7 @@ const SwipeListView = (props: SwipeListViewProps) => {
       </TouchableOpacity>
     </ScrollView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   deleteButtonWrapper: {

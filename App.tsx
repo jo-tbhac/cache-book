@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
 import { PortalProvider } from '@gorhom/portal';
 import { RecoilRoot } from 'recoil';
+import Dialog from '@components/commons/Dialog';
 import { createTable } from '@db/query';
 import ButtomTabNavigator from '@navigators/ButtomTabNavigator';
 
@@ -29,13 +30,16 @@ const App = () => {
 
   return (
     <RecoilRoot>
-      <PortalProvider>
-        <NavigationContainer>
-          <SafeAreaView style={styles.container}>
-            <ButtomTabNavigator />
-          </SafeAreaView>
-        </NavigationContainer>
-      </PortalProvider>
+      <Suspense fallback={null}>
+        <PortalProvider>
+          <NavigationContainer>
+            <SafeAreaView style={styles.container}>
+              <ButtomTabNavigator />
+            </SafeAreaView>
+          </NavigationContainer>
+          <Dialog />
+        </PortalProvider>
+      </Suspense>
     </RecoilRoot>
   );
 };

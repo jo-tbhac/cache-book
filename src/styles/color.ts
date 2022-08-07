@@ -37,6 +37,12 @@ export const colors = {
     background: '#f9254e',
     label: '#fff',
   },
+  dialog: {
+    background: '#fff',
+    overlay: OVERLAY,
+    okButton: MAIN_COLOR,
+    cancelButton: '#666',
+  },
   inputAccessoryView: {
     background: '#e6e6e6',
     buttonText: '#387ef5',

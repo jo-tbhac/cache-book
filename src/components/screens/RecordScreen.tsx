@@ -74,6 +74,12 @@ const RecordScreen = () => {
     setEditRecordId(recordId);
   }, []);
 
+  const onDelete = useCallback((recordId: number) => {
+    setRecords(
+      (currentRecords) => currentRecords.filter((currentRecord) => currentRecord.id !== recordId),
+    );
+  }, [setRecords]);
+
   const closeModal = useCallback(() => {
     setEditRecordId(null);
   }, []);
@@ -106,6 +112,7 @@ const RecordScreen = () => {
               method={item.method}
               category={item.category}
               onPress={onPressList}
+              onDeleteRecord={onDelete}
             />
           )}
           ItemSeparatorComponent={Border}

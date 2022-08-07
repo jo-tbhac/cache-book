@@ -144,3 +144,24 @@ export const updateRecord = (id: number, values: Omit<IORecord, 'id'>) => {
   });
 };
 
+export const deleteRecord = (id: number) => {
+  const query = 'DELETE FROM records WHERE id = ?';
+  const db = getDB();
+
+  return new Promise<number>((resolve, reject) => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          query,
+          [id],
+          () => {
+            resolve(id);
+          },
+        );
+      },
+      (error) => {
+        reject(error);
+      },
+    );
+  });
+};

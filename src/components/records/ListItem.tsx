@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
-  StyleSheet, View, Text, TouchableOpacity, useWindowDimensions,
+  StyleSheet, View, Text, TouchableOpacity, useWindowDimensions, ScrollView,
 } from 'react-native';
+import { useSetRecoilState } from 'recoil';
 import SwipeListView from '@components/commons/SwipeListView';
+import { deleteRecord } from '@db/records/query';
+import { dialogState } from '@store/dialog/atom';
 import { RecordType, RecordTypes } from '@store/records/types';
 import { colors } from '@styles/color';
 import { ACTIVE_OPACITY, RECORD_LIST_PADDING } from '@styles/index';
@@ -18,6 +21,7 @@ interface RecordListItemProps {
   method: string;
   totalExpenses?: number;
   onPress?: (recordId: number) => void;
+  onDeleteRecord: (recordId: number) => void;
 }
 
 const RecordListItem = (props: RecordListItemProps) => {
@@ -32,9 +36,14 @@ const RecordListItem = (props: RecordListItemProps) => {
     category,
     totalExpenses,
     onPress,
+    onDeleteRecord,
   } = props;
 
+  const setDialogState = useSetRecoilState(dialogState);
+
   const deviceWidth = useWindowDimensions().width;
+
+  const swipeListViewRef = useRef<ScrollView>(null);
 
   const fontColor = {
     color: type === RecordTypes.incomes ? colors.font.default : colors.font.alert,
@@ -45,8 +54,30 @@ const RecordListItem = (props: RecordListItemProps) => {
   const showCategory = category !== undefined;
   const showTotalExpenses = totalExpenses !== undefined;
 
+  const onPressDelete = () => {
+    const onOkPress = () => {
+      deleteRecord(id)
+        .then(() => {
+          onDeleteRecord(id);
+        })
+        .catch(() => {
+          // TODO handle error
+        });
+    };
+
+    const onCancelPress = () => {
+      swipeListViewRef.current?.scrollTo({ x: 0, animated: true });
+    };
+    setDialogState({
+      visible: true,
+      title: '削除しますか？',
+      onCancelPress,
+      onOkPress,
+    });
+  };
+
   return (
-    <SwipeListView onPressDelete={() => {}}>
+    <SwipeListView ref={swipeListViewRef} onPressDelete={onPressDelete}>
       <TouchableOpacity
         onPress={() => onPress && onPress(id)}
         activeOpacity={onPress ? ACTIVE_OPACITY : 1}
