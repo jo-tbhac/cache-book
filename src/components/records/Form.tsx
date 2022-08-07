@@ -106,6 +106,8 @@ const RecordForm = (props: RecordFormProps) => {
         selectedCategoryValue ? { id: selectedCategoryValue, name: selectedCategoryLabel } : null,
       method: { id: selectedMethodValue, name: selectedMethodLabel },
     });
+    setItemName('');
+    setItemValue(0);
   }, [
     saveRecord,
     itemName,
