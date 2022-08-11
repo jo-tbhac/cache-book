@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     flex: 1,
     color: colors.font.default,
-    fontSize: 20,
+    fontSize: 18,
     paddingLeft: 3,
     paddingVertical: 3,
   },
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     color: colors.font.default,
     flex: 1,
-    fontSize: 20,
+    fontSize: 18,
     paddingLeft: 3,
     paddingVertical: 3,
   },
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
   },
   categoryInputText: {
     color: colors.font.default,
-    fontSize: 20,
+    fontSize: 18,
   },
   methodInput: {
     borderBottomColor: colors.textInput.border,
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   },
   methodInputText: {
     color: colors.font.default,
-    fontSize: 20,
+    fontSize: 18,
   },
   buttonContainer: {
     width: 150,

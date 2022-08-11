@@ -34,14 +34,14 @@ const RecordHeader = (props: RecordHeaderProps) => {
 
   return (
     <View style={styles.header}>
-      <TouchableOpacity style={styles.angleButton} onPress={next}>
+      <TouchableOpacity style={styles.angleButton} onPress={prev}>
         <FontAwesome5 name="angle-left" size={20} />
       </TouchableOpacity>
       <Text style={styles.title}>
         {dateString}
         の記録
       </Text>
-      <TouchableOpacity style={styles.angleButton} onPress={prev}>
+      <TouchableOpacity style={styles.angleButton} onPress={next}>
         <FontAwesome5 name="angle-right" size={20} />
       </TouchableOpacity>
     </View>
@@ -58,13 +58,13 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   angleButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 3,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
   },
 });
 

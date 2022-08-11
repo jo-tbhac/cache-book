@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.button.label,
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
   },
 });

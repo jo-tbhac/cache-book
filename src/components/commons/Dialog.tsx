@@ -33,7 +33,7 @@ const Dialog = () => {
         <View style={styles.container}>
           <Text style={styles.title}>{dialogOptions.title}</Text>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={onCancelPress}>
+            <TouchableOpacity style={styles.cancelButton} onPress={onCancelPress}>
               <Text style={styles.cancelButtonText}>キャンセル</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={onOkPress}>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     maxWidth: 500,
     paddingHorizontal: 15,
-    paddingVertical: 20,
+    paddingVertical: 10,
     width: '90%',
   },
   title: {
@@ -67,15 +67,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 15,
+    marginTop: 10,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  button: {
-    marginHorizontal: 5,
+  cancelButton: {
+    marginHorizontal: 3,
     paddingHorizontal: 5,
-    paddingVertical: 3,
+    paddingVertical: 10,
+  },
+  button: {
+    marginHorizontal: 3,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
   },
   buttonText: {
     color: colors.dialog.okButton,
