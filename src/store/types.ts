@@ -5,10 +5,10 @@ export const RecoilKeys = {
   methods: 'methods',
   methodsLoader: 'methodsLoader',
   dailyRecords: 'dailyRecords',
-  dailyRecordsLoader: 'dailyRecordsLoader',
+  dailyRecordsSelector: 'dailyRecordsSelector',
   monthlyRecords: 'monthlyRecords',
-  monthlyRecordsLoader: 'monthlyRecordsLoader',
-  expensesByCategory: 'expensesByCategory',
+  monthlyRecordsSelector: 'monthlyRecordsSelector',
+  expensesByCategorySelector: 'expensesByCategorySelector',
   selectedDate: 'selectedDate',
   selectedMonth: 'selectedMonth',
 } as const;

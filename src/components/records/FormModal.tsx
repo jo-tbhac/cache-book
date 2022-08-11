@@ -2,11 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   StyleSheet, Modal, Pressable, View,
 } from 'react-native';
-import { useSetRecoilState } from 'recoil';
 import RecordForm from '@components/records/Form';
 import { getRecord, updateRecord } from '@db/records/query';
-import { IORecord, IORecordListItem, RecordType } from '@store/records/types';
-import { dailyRecordsState } from '@store/records/atom';
+import { useUpdateRecord } from '@store/records/hooks';
+import { IORecord, RecordType } from '@store/records/types';
 import { colors } from '@styles/color';
 
 interface FormModalProps {
@@ -24,7 +23,8 @@ const FormModal = (props: FormModalProps) => {
     onBackDropPress,
   } = props;
 
-  const setRecords = useSetRecoilState(dailyRecordsState);
+  const setUpdateRecords = useUpdateRecord();
+
   const [record, setRecord] = useState<IORecord | null>(null);
 
   useEffect(() => {
@@ -59,25 +59,14 @@ const FormModal = (props: FormModalProps) => {
         methodId: params.method.id,
       },
     )
-      .then((insertItem) => {
-        const updatedItem: IORecordListItem = {
-          id: insertItem.id,
-          name: insertItem.name,
-          value: insertItem.value,
-          type: insertItem.type,
-          category: params.category?.name || '',
-          method: params.method.name,
-          date: insertItem.date,
-        };
-        setRecords((currentRecords) => currentRecords.map(
-          (currentRecord) => (currentRecord.id === updatedItem.id ? updatedItem : currentRecord),
-        ));
+      .then((updatedItem) => {
+        setUpdateRecords(updatedItem);
         close();
       })
       .catch(() => {
         // TODO handle error
       });
-  }, [close, record, setRecords]);
+  }, [close, record, setUpdateRecords]);
 
   if (!record) {
     return null;

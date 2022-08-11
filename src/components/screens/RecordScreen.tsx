@@ -1,10 +1,8 @@
-import React, {
-  useMemo, useCallback, useState, useEffect,
-} from 'react';
+import React, { useMemo, useCallback, useState } from 'react';
 import {
   StyleSheet, Text, View, FlatList,
 } from 'react-native';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { insertRecord } from '@db/records/query';
 import Border from '@components/commons/Border';
 import RecordForm from '@components/records/Form';
@@ -12,15 +10,18 @@ import RecordFormModal from '@components/records/FormModal';
 import RecordHeader from '@components/records/Header';
 import RecordListItem from '@components/records/ListItem';
 import { selectedDateState } from '@store/date/atom';
-import { dailyRecordsState } from '@store/records/atom';
-import { RecordTypes, IORecordListItem, RecordType } from '@store/records/types';
+import { useAddRecord, useDeleteRecord } from '@store/records/hooks';
+import { dailyRecordsSelector } from '@store/records/selector';
+import { RecordTypes, RecordType } from '@store/records/types';
 import { colors } from '@styles/color';
 import { BASE_PADDING, RECORD_LIST_PADDING } from '@styles/index';
 
 const RecordScreen = () => {
   const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
-  const [records, setRecords] = useRecoilState(dailyRecordsState);
-  const resetRecords = useResetRecoilState(dailyRecordsState);
+  const records = useRecoilValue(dailyRecordsSelector);
+
+  const setNewRecord = useAddRecord();
+  const deleteRecord = useDeleteRecord();
 
   const [editRecordId, setEditRecordId] = useState<number | null>(null);
 
@@ -41,9 +42,6 @@ const RecordScreen = () => {
     return total;
   }, [records]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(resetRecords, [selectedDate]);
-
   const addRecord = useCallback((params: {
     name: string;
     value: number;
@@ -60,31 +58,20 @@ const RecordScreen = () => {
       methodId: params.method.id,
     })
       .then((insertItem) => {
-        const newItem: IORecordListItem = {
-          id: insertItem.id,
-          name: insertItem.name,
-          value: insertItem.value,
-          type: insertItem.type,
-          category: params.category?.name || '',
-          method: params.method.name,
-          date: insertItem.date,
-        };
-        setRecords((currentRecords) => [...currentRecords, newItem]);
+        setNewRecord(insertItem);
       })
       .catch(() => {
         // TODO handle error
       });
-  }, [selectedDate, setRecords]);
+  }, [selectedDate, setNewRecord]);
 
   const onPressList = useCallback((recordId: number) => {
     setEditRecordId(recordId);
   }, []);
 
   const onDelete = useCallback((recordId: number) => {
-    setRecords(
-      (currentRecords) => currentRecords.filter((currentRecord) => currentRecord.id !== recordId),
-    );
-  }, [setRecords]);
+    deleteRecord(recordId);
+  }, [deleteRecord]);
 
   const closeModal = useCallback(() => {
     setEditRecordId(null);

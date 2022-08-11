@@ -4,33 +4,17 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import ExpensesListItem from '@components/records/ExpensesListItem';
 import RecordHeader from '@components/records/Header';
 import { selectedMonthState } from '@store/date/atom';
-import { monthlyRecordsState } from '@store/records/atom';
-import { ExpensesByCategory } from '@store/records/types';
+import { expensesByCategorySelector } from '@store/records/selector';
 import { colors } from '@styles/color';
 
 const IndexByCategoryScreen = () => {
   const [selectedMonth, setSelectedMonth] = useRecoilState(selectedMonthState);
-
-  const records = useRecoilValue(monthlyRecordsState);
+  const expensesByCategory = useRecoilValue(expensesByCategorySelector);
 
   const selectedDateString = useMemo(
     () => selectedMonth.format('YYYY/MM'),
     [selectedMonth],
   );
-
-  const expensesByCategory = useMemo(() => {
-    const expensesMap: ExpensesByCategory = {};
-
-    for (let i = 0; i < records.length; i += 1) {
-      const record = records[i];
-      if (record.category) {
-        const currentValue = expensesMap[record.category] || 0;
-        expensesMap[record.category] = currentValue + record.value;
-      }
-    }
-
-    return Object.keys(expensesMap).map((name) => ({ name, value: expensesMap[name] }));
-  }, [records]);
 
   const next = () => {
     setSelectedMonth(selectedMonth.add(1, 'month'));

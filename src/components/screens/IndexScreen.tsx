@@ -1,23 +1,22 @@
-import React, { useMemo, useCallback, useEffect } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import dayjs from 'dayjs';
 import Border from '@components/commons/Border';
 import RecordHeader from '@components/records/Header';
 import RecordListItem from '@components/records/ListItem';
 import { selectedMonthState } from '@store/date/atom';
-import { monthlyRecordsState } from '@store/records/atom';
+import { useDeleteRecord } from '@store/records/hooks';
+import { monthlyRecordsSelector } from '@store/records/selector';
 import { RecordTypes } from '@store/records/types';
 import { colors } from '@styles/color';
 import { RECORD_LIST_PADDING } from '@styles/index';
 
 const IndexScreen = () => {
   const [selectedMonth, setSelectedMonth] = useRecoilState(selectedMonthState);
-  const [records, setRecords] = useRecoilState(monthlyRecordsState);
-  const resetRecords = useResetRecoilState(monthlyRecordsState);
+  const records = useRecoilValue(monthlyRecordsSelector);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(resetRecords, [selectedMonth]);
+  const deleteRecord = useDeleteRecord();
 
   const selectedDateString = useMemo(
     () => selectedMonth.format('YYYY/MM'),
@@ -40,10 +39,8 @@ const IndexScreen = () => {
   };
 
   const onDelete = useCallback((recordId: number) => {
-    setRecords(
-      (currentRecords) => currentRecords.filter((currentRecord) => currentRecord.id !== recordId),
-    );
-  }, [setRecords]);
+    deleteRecord(recordId);
+  }, [deleteRecord]);
 
   const next = () => {
     setSelectedMonth(selectedMonth.add(1, 'month'));

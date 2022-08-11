@@ -1,13 +1,13 @@
-import { atom } from 'recoil';
+import { atomFamily } from 'recoil';
 import { RecoilKeys } from '@store/types';
-import { dailyRecordsSelector, monthlyRecordsLoader } from '@store/records/selector';
+import { dailyRecordsLoader, monthlyRecordsLoader } from '@store/records/loader';
 
-export const dailyRecordsState = atom({
+export const dailyRecordsState = atomFamily({
   key: RecoilKeys.dailyRecords,
-  default: dailyRecordsSelector,
+  default: dailyRecordsLoader,
 });
 
-export const monthlyRecordsState = atom({
+export const monthlyRecordsState = atomFamily({
   key: RecoilKeys.monthlyRecords,
   default: monthlyRecordsLoader,
 });

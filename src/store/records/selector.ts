@@ -1,23 +1,16 @@
 import { selector } from 'recoil';
-import dayjs from 'dayjs';
-import { getRecordsBy } from '@db/records/query';
-import { selectedDateState, selectedMonthState } from '@store/date/atom';
 import { categoriesState } from '@store/categories/atom';
+import { selectedDateState, selectedMonthState } from '@store/date/atom';
 import { methodsState } from '@store/methods/atom';
+import { dailyRecordsState, monthlyRecordsState } from '@store/records/atom';
 import { buildRecordList } from '@store/records/utils';
 import { RecoilKeys } from '@store/types';
 
 export const dailyRecordsSelector = selector({
-  key: RecoilKeys.dailyRecordsLoader,
+  key: RecoilKeys.dailyRecordsSelector,
   get: async ({ get }) => {
-    const selectedDate = dayjs(get(selectedDateState));
-    const from = selectedDate.startOf('day').toDate();
-    const to = selectedDate.endOf('day').toDate();
-
-    const records = await getRecordsBy({ from, to }).catch((error) => {
-      throw error;
-    });
-
+    const selectedDate = get(selectedDateState);
+    const records = get(dailyRecordsState(selectedDate));
     const categories = get(categoriesState);
     const methods = get(methodsState);
 
@@ -25,20 +18,39 @@ export const dailyRecordsSelector = selector({
   },
 });
 
-export const monthlyRecordsLoader = selector({
-  key: RecoilKeys.monthlyRecordsLoader,
+export const monthlyRecordsSelector = selector({
+  key: RecoilKeys.monthlyRecordsSelector,
   get: async ({ get }) => {
-    const selectedMonth = dayjs(get(selectedMonthState));
-    const from = selectedMonth.startOf('month').toDate();
-    const to = selectedMonth.endOf('month').toDate();
-
-    const records = await getRecordsBy({ from, to }).catch((error) => {
-      throw error;
-    });
-
+    const selectedMonth = get(selectedMonthState);
+    const records = get(monthlyRecordsState(selectedMonth));
     const categories = get(categoriesState);
     const methods = get(methodsState);
 
     return buildRecordList({ records, categories, methods });
+  },
+});
+
+export const expensesByCategorySelector = selector({
+  key: RecoilKeys.expensesByCategorySelector,
+  get: ({ get }) => {
+    const selectedMonth = get(selectedMonthState);
+    const records = get(monthlyRecordsState(selectedMonth));
+    const categories = get(categoriesState);
+
+    const expensesMap: { [id: number]: { name: string; value: number } } = {};
+    for (let i = 0; i < categories.length; i += 1) {
+      const category = categories[i];
+      expensesMap[category.id] = { name: category.name, value: 0 };
+    }
+
+    for (let i = 0; i < records.length; i += 1) {
+      const { categoryId, value } = records[i];
+      if (categoryId && expensesMap[categoryId]) {
+        const currentValue = expensesMap[categoryId].value;
+        expensesMap[categoryId] = { ...expensesMap[categoryId], value: currentValue + value };
+      }
+    }
+
+    return Object.values(expensesMap);
   },
 });

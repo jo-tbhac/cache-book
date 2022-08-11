@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
 import { RecoilKeys } from '@store/types';
-import { categoriesSelector } from '@store/categories/selector';
+import { categoriesLoader } from '@store/categories/loader';
 
 export const categoriesState = atom({
   key: RecoilKeys.categories,
-  default: categoriesSelector,
+  default: categoriesLoader,
 });
