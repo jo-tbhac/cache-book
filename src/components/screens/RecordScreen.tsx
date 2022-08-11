@@ -2,7 +2,7 @@ import React, { useMemo, useCallback, useState } from 'react';
 import {
   StyleSheet, Text, View, FlatList,
 } from 'react-native';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilCallback } from 'recoil';
 import { insertRecord } from '@db/records/query';
 import Border from '@components/commons/Border';
 import RecordForm from '@components/records/Form';
@@ -17,18 +17,12 @@ import { colors } from '@styles/color';
 import { BASE_PADDING, RECORD_LIST_PADDING } from '@styles/index';
 
 const RecordScreen = () => {
-  const [selectedDate, setSelectedDate] = useRecoilState(selectedDateState);
   const records = useRecoilValue(dailyRecordsSelector);
 
   const setNewRecord = useAddRecord();
   const deleteRecord = useDeleteRecord();
 
   const [editRecordId, setEditRecordId] = useState<number | null>(null);
-
-  const selectedDateString = useMemo(
-    () => selectedDate.format('YYYY/MM/DD'),
-    [selectedDate],
-  );
 
   const totalExpenses = useMemo(() => {
     let total = 0;
@@ -42,13 +36,14 @@ const RecordScreen = () => {
     return total;
   }, [records]);
 
-  const addRecord = useCallback((params: {
+  const addRecord = useRecoilCallback(({ snapshot }) => async (params: {
     name: string;
     value: number;
     type: RecordType;
     category: { id: number; name: string } | null;
     method: { id: number; name: string };
   }) => {
+    const selectedDate = await snapshot.getPromise(selectedDateState);
     insertRecord({
       name: params.name,
       value: params.value,
@@ -63,7 +58,7 @@ const RecordScreen = () => {
       .catch(() => {
         // TODO handle error
       });
-  }, [selectedDate, setNewRecord]);
+  }, [setNewRecord]);
 
   const onPressList = useCallback((recordId: number) => {
     setEditRecordId(recordId);
@@ -77,14 +72,6 @@ const RecordScreen = () => {
     setEditRecordId(null);
   }, []);
 
-  const next = () => {
-    setSelectedDate(selectedDate.add(1, 'day'));
-  };
-
-  const prev = () => {
-    setSelectedDate(selectedDate.subtract(1, 'day'));
-  };
-
   const onModalBackDropPress = () => {
     setEditRecordId(null);
   };
@@ -92,7 +79,7 @@ const RecordScreen = () => {
   return (
     <>
       <View style={styles.container}>
-        <RecordHeader dateString={selectedDateString} next={next} prev={prev} />
+        <RecordHeader type="day" />
         <RecordForm saveRecord={addRecord} />
         <FlatList
           data={records}

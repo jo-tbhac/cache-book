@@ -1,11 +1,10 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import dayjs from 'dayjs';
 import Border from '@components/commons/Border';
 import RecordHeader from '@components/records/Header';
 import RecordListItem from '@components/records/ListItem';
-import { selectedMonthState } from '@store/date/atom';
 import { useDeleteRecord } from '@store/records/hooks';
 import { monthlyRecordsSelector } from '@store/records/selector';
 import { RecordTypes } from '@store/records/types';
@@ -13,15 +12,9 @@ import { colors } from '@styles/color';
 import { RECORD_LIST_PADDING } from '@styles/index';
 
 const IndexScreen = () => {
-  const [selectedMonth, setSelectedMonth] = useRecoilState(selectedMonthState);
   const records = useRecoilValue(monthlyRecordsSelector);
 
   const deleteRecord = useDeleteRecord();
-
-  const selectedDateString = useMemo(
-    () => selectedMonth.format('YYYY/MM'),
-    [selectedMonth],
-  );
 
   const totalExpenses = (index: number, method: string) => {
     let total = 0;
@@ -42,17 +35,9 @@ const IndexScreen = () => {
     deleteRecord(recordId);
   }, [deleteRecord]);
 
-  const next = () => {
-    setSelectedMonth(selectedMonth.add(1, 'month'));
-  };
-
-  const prev = () => {
-    setSelectedMonth(selectedMonth.subtract(1, 'month'));
-  };
-
   return (
     <View style={styles.container}>
-      <RecordHeader dateString={selectedDateString} next={next} prev={prev} />
+      <RecordHeader type="month" />
       <FlatList
         data={records}
         renderItem={({ item, index }) => {

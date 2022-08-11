@@ -284,4 +284,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecordForm;
+export default React.memo(RecordForm);

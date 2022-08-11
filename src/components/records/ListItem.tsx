@@ -173,4 +173,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecordListItem;
+export default React.memo(RecordListItem);
