@@ -1,5 +1,6 @@
 export const RecordScreenName = 'record';
 export const IndexScreenName = 'index';
+export const IndexByCategoryScreenName = 'indexByCategory';
 export const CategoryScreenName = 'category';
 export const MethodScreenName = 'method';
 export const SettingScreenName = 'setting';
@@ -12,7 +13,11 @@ export const pages = {
   },
   index: {
     name: IndexScreenName,
-    title: '一覧',
+    title: '月別',
+  },
+  indexByCategory: {
+    name: IndexByCategoryScreenName,
+    title: 'カテゴリー別',
   },
   category: {
     name: CategoryScreenName,

@@ -8,6 +8,7 @@ export const RecoilKeys = {
   dailyRecordsLoader: 'dailyRecordsLoader',
   monthlyRecords: 'monthlyRecords',
   monthlyRecordsLoader: 'monthlyRecordsLoader',
+  expensesByCategory: 'expensesByCategory',
   selectedDate: 'selectedDate',
   selectedMonth: 'selectedMonth',
 } as const;

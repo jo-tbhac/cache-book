@@ -5,6 +5,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { pages } from '@navigators/pages';
 import RecordScreen from '@components/screens/RecordScreen';
 import IndexScreen from '@components/screens/IndexScreen';
+import IndexByCategoryScreen from '@components/screens/IndexByCategoryScreen';
 import SettingStackNavigator from '@navigators/SettingStackNavigator';
 import { colors } from '@styles/color';
 
@@ -21,6 +22,10 @@ const RecordTabIcon = ({ color, size }: TabIconProps) => (
 
 const IndexTabIcon = ({ color, size }: TabIconProps) => (
   <FontAwesome5 name="list" size={size} color={color} />
+);
+
+const IndexByCategoryTabIcon = ({ color, size }: TabIconProps) => (
+  <FontAwesome5 name="layer-group" size={size} color={color} />
 );
 
 const SettingTabIcon = ({ color, size }: TabIconProps) => (
@@ -45,6 +50,11 @@ const ButtomTabNavigator = () => (
       name={pages.index.name}
       component={IndexScreen}
       options={{ title: pages.index.title, tabBarIcon: IndexTabIcon }}
+    />
+    <Tab.Screen
+      name={pages.indexByCategory.name}
+      component={IndexByCategoryScreen}
+      options={{ title: pages.indexByCategory.title, tabBarIcon: IndexByCategoryTabIcon }}
     />
     <Tab.Screen
       name={pages.settingStack.name}

@@ -15,6 +15,10 @@ export interface IORecord {
   date: string;
 }
 
+export interface ExpensesByCategory {
+  [name: string]: number;
+}
+
 export type IORecordListItem = Omit<IORecord, 'categoryId' | 'methodId'> & {
   category: string;
   method: string;
