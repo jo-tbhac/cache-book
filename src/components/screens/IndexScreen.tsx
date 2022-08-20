@@ -1,18 +1,21 @@
 import React, { useCallback } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import {
+  StyleSheet, View, FlatList, Text,
+} from 'react-native';
 import { useRecoilValue } from 'recoil';
 import dayjs from 'dayjs';
 import Border from '@components/commons/Border';
 import RecordHeader from '@components/records/Header';
 import RecordListItem from '@components/records/ListItem';
 import { useDeleteRecord } from '@store/records/hooks';
-import { monthlyRecordsSelector } from '@store/records/selector';
+import { monthlyRecordsSelector, expensesOfMonthSelector } from '@store/records/selector';
 import { RecordTypes } from '@store/records/types';
 import { colors } from '@styles/color';
-import { RECORD_LIST_PADDING } from '@styles/index';
+import { RECORD_LIST_PADDING, BASE_PADDING } from '@styles/index';
 
 const IndexScreen = () => {
   const records = useRecoilValue(monthlyRecordsSelector);
+  const [expensesOfMonth, lastMonthExpenses] = useRecoilValue(expensesOfMonthSelector);
 
   const deleteRecord = useDeleteRecord();
 
@@ -30,6 +33,8 @@ const IndexScreen = () => {
 
     return total;
   };
+
+  const diff = lastMonthExpenses - expensesOfMonth;
 
   const onDelete = useCallback((recordId: number) => {
     deleteRecord(recordId);
@@ -63,6 +68,20 @@ const IndexScreen = () => {
         style={styles.recordList}
         contentContainerStyle={styles.recordListContainer}
       />
+      <View style={styles.expensesContainer}>
+        <Text style={styles.expensesLabel}>支出合計</Text>
+        <Text style={styles.expensesValue}>{expensesOfMonth.toLocaleString('ja-jp')}</Text>
+      </View>
+      <View style={styles.expensesContainer}>
+        <Text style={styles.expensesLabel}>前月比</Text>
+        <Text
+          style={
+            [styles.expensesValue, { color: diff < 0 ? colors.font.alert : colors.font.default }]
+          }
+        >
+          {diff.toLocaleString('ja-jp')}
+        </Text>
+      </View>
     </View>
   );
 };
@@ -81,6 +100,22 @@ const styles = StyleSheet.create({
   },
   recordListContainer: {
     paddingLeft: RECORD_LIST_PADDING,
+  },
+  expensesContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: BASE_PADDING,
+    paddingTop: 8,
+  },
+  expensesLabel: {
+    flex: 1,
+    color: colors.font.default,
+    fontSize: 16,
+    paddingRight: 10,
+  },
+  expensesValue: {
+    color: colors.font.default,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

@@ -3,6 +3,7 @@ import { categoriesState } from '@store/categories/atom';
 import { selectedDateState, selectedMonthState } from '@store/date/atom';
 import { methodsState } from '@store/methods/atom';
 import { dailyRecordsState, monthlyRecordsState } from '@store/records/atom';
+import { RecordTypes } from '@store/records/types';
 import { buildRecordList } from '@store/records/utils';
 import { RecoilKeys } from '@store/types';
 
@@ -52,5 +53,32 @@ export const expensesByCategorySelector = selector({
     }
 
     return Object.values(expensesMap);
+  },
+});
+
+export const expensesOfMonthSelector = selector({
+  key: RecoilKeys.expensesOfMonthSelector,
+  get: ({ get }) => {
+    const selectedMonth = get(selectedMonthState);
+    const records = get(monthlyRecordsState(selectedMonth));
+    const lastMonthRecords = get(monthlyRecordsState(selectedMonth.add(1, 'month')));
+
+    let total = 0;
+    for (let i = 0; i < records.length; i += 1) {
+      const record = records[i];
+      if (record.type === RecordTypes.expenses) {
+        total += record.value;
+      }
+    }
+
+    let lastMonthTotal = 0;
+    for (let i = 0; i < lastMonthRecords.length; i += 1) {
+      const lastMonthRecord = lastMonthRecords[i];
+      if (lastMonthRecord.type === RecordTypes.expenses) {
+        lastMonthTotal += lastMonthRecord.value;
+      }
+    }
+
+    return [total, lastMonthTotal];
   },
 });

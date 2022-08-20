@@ -9,6 +9,7 @@ export const RecoilKeys = {
   monthlyRecords: 'monthlyRecords',
   monthlyRecordsSelector: 'monthlyRecordsSelector',
   expensesByCategorySelector: 'expensesByCategorySelector',
+  expensesOfMonthSelector: 'expensesOfMonthSelector',
   selectedDate: 'selectedDate',
   selectedMonth: 'selectedMonth',
 } as const;
