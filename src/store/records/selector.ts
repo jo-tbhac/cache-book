@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { selector } from 'recoil';
 import { categoriesState } from '@store/categories/atom';
 import { selectedDateState, selectedMonthState } from '@store/date/atom';
@@ -6,6 +8,8 @@ import { dailyRecordsState, monthlyRecordsState } from '@store/records/atom';
 import { RecordTypes } from '@store/records/types';
 import { buildRecordList } from '@store/records/utils';
 import { RecoilKeys } from '@store/types';
+
+dayjs.extend(isSameOrBefore);
 
 export const dailyRecordsSelector = selector({
   key: RecoilKeys.dailyRecordsSelector,
@@ -61,12 +65,17 @@ export const expensesOfMonthSelector = selector({
   get: ({ get }) => {
     const selectedMonth = get(selectedMonthState);
     const records = get(monthlyRecordsState(selectedMonth));
-    const lastMonthRecords = get(monthlyRecordsState(selectedMonth.add(1, 'month')));
+    const lastMonthRecords = get(monthlyRecordsState(selectedMonth.subtract(1, 'month')));
+    const currentDate = dayjs();
+    const targetDate = selectedMonth.isBefore(currentDate, 'month')
+      ? selectedMonth.endOf('month').date()
+      : currentDate.date();
 
     let total = 0;
     for (let i = 0; i < records.length; i += 1) {
       const record = records[i];
-      if (record.type === RecordTypes.expenses) {
+      const date = dayjs(record.date).date();
+      if (record.type === RecordTypes.expenses && date <= targetDate) {
         total += record.value;
       }
     }
@@ -74,7 +83,8 @@ export const expensesOfMonthSelector = selector({
     let lastMonthTotal = 0;
     for (let i = 0; i < lastMonthRecords.length; i += 1) {
       const lastMonthRecord = lastMonthRecords[i];
-      if (lastMonthRecord.type === RecordTypes.expenses) {
+      const date = dayjs(lastMonthRecord.date).date();
+      if (lastMonthRecord.type === RecordTypes.expenses && date <= targetDate) {
         lastMonthTotal += lastMonthRecord.value;
       }
     }
