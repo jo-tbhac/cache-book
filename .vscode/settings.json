@@ -8,5 +8,7 @@
     "quickfix.biome": "explicit",
     "source.organizeImports.biome": "explicit"
   },
+  "cSpell.enabled": true,
+  "cSpell.import": ["${workspaceFolder}/.cspell/cspell.json"],
   "typescript.tsdk": "node_modules/typescript/lib"
 }
