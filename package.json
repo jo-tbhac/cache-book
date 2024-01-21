@@ -8,6 +8,10 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
+  "volta": {
+    "node": "18.12.1",
+    "npm": "8.19.2"
+  },
   "dependencies": {
     "expo": "~50.0.2",
     "expo-status-bar": "~1.11.1",
