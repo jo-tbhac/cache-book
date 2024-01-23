@@ -1,12 +1,41 @@
 import { Tabs } from 'expo-router/tabs'
 
+import { TabBarIcon } from '@/components/commons/TabBarIcon'
+import { useTheme } from '@/styles/hooks'
+
 export default function AppLayout() {
+  const theme = useTheme()
+
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: theme.colors.app.primary.main,
+        tabBarInactiveTintColor: theme.colors.font.placeholder,
+        headerShown: false
+      }}
+    >
       <Tabs.Screen name="index" options={{ href: null }} />
-      <Tabs.Screen name="daily-records/index" />
-      <Tabs.Screen name="monthly-records/index" />
-      <Tabs.Screen name="category-records/index" />
+      <Tabs.Screen
+        name="daily-records/index"
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="pen" color={color} />,
+          tabBarLabel: '入力'
+        }}
+      />
+      <Tabs.Screen
+        name="monthly-records/index"
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+          tabBarLabel: '月別'
+        }}
+      />
+      <Tabs.Screen
+        name="category-records/index"
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="layer-group" color={color} />,
+          tabBarLabel: 'カテゴリー別'
+        }}
+      />
     </Tabs>
   )
 }
