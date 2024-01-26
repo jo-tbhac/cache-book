@@ -1,1 +1,3 @@
-export interface DailyRecordsPresenterProps {}
+export interface DailyRecordsPresenterProps {
+  handlePressFloatButton: () => void
+}

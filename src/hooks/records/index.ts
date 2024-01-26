@@ -10,9 +10,9 @@ export const useGetRecordsBy = () => {
   return useCallback(
     (params: { from: Date; to: Date; categoryId?: number }) => {
       if (db == null) {
-        return
+        return Promise.reject()
       }
-      getRecordsBy(db, params)
+      return getRecordsBy(db, params)
     },
     [db]
   )
@@ -24,9 +24,9 @@ export const useGetRecord = () => {
   return useCallback(
     (id: number) => {
       if (db == null) {
-        return
+        return Promise.reject()
       }
-      getRecord(db, id)
+      return getRecord(db, id)
     },
     [db]
   )
@@ -38,9 +38,9 @@ export const useInsertRecord = () => {
   return useCallback(
     (values: Omit<IORecord, 'id'>) => {
       if (db == null) {
-        return
+        return Promise.reject()
       }
-      insertRecord(db, values)
+      return insertRecord(db, values)
     },
     [db]
   )
@@ -52,9 +52,9 @@ export const useUpdateRecord = () => {
   return useCallback(
     (id: number, values: Omit<IORecord, 'id'>) => {
       if (db == null) {
-        return
+        return Promise.reject()
       }
-      updateRecord(db, id, values)
+      return updateRecord(db, id, values)
     },
     [db]
   )
@@ -66,9 +66,9 @@ export const useDeleteRecord = () => {
   return useCallback(
     (id: number) => {
       if (db == null) {
-        return
+        return Promise.reject()
       }
-      deleteRecord(db, id)
+      return deleteRecord(db, id)
     },
     [db]
   )

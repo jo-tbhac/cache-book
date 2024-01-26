@@ -1,16 +1,27 @@
+import FontAwesome from '@expo/vector-icons/FontAwesome6'
 import { FC, useMemo } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
+import { FloatButton } from '@/components/commons/FloatButton'
 import { useTheme } from '@/styles/hooks'
 
+import { Header } from './Header'
+import { RecordList } from './RecordList'
 import { DailyRecordsPresenterProps } from './types'
 
-export const DailyRecordsPresenter: FC<DailyRecordsPresenterProps> = () => {
+export const DailyRecordsPresenter: FC<DailyRecordsPresenterProps> = ({
+  handlePressFloatButton
+}) => {
   const styles = useStyles()
+  const theme = useTheme()
 
   return (
     <View style={styles.container}>
-      <Text>DailyRecords</Text>
+      <Header />
+      <RecordList />
+      <FloatButton onPress={handlePressFloatButton}>
+        <FontAwesome name="plus" color={theme.colors.font.contrast} size={32} />
+      </FloatButton>
     </View>
   )
 }
