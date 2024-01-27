@@ -25,14 +25,16 @@ export default function AppLayout() {
         name="monthly-records/index"
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
-          tabBarLabel: '月別'
+          tabBarLabel: '月別',
+          unmountOnBlur: true
         }}
       />
       <Tabs.Screen
         name="category-records/index"
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="layer-group" color={color} />,
-          tabBarLabel: 'カテゴリー別'
+          tabBarLabel: 'カテゴリー別',
+          unmountOnBlur: true
         }}
       />
       <Tabs.Screen

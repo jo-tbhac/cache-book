@@ -1,1 +1,3 @@
-export interface MonthlyRecordsPresenterProps {}
+export interface MonthlyRecordsPresenterProps {
+  componentKey: string
+}

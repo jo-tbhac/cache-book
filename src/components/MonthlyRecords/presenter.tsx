@@ -3,14 +3,17 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import { useTheme } from '@/styles/hooks'
 
+import { Header } from './Header'
+import { RecordList } from './RecordList'
 import { MonthlyRecordsPresenterProps } from './types'
 
-export const MonthlyRecordsPresenter: FC<MonthlyRecordsPresenterProps> = () => {
+export const MonthlyRecordsPresenter: FC<MonthlyRecordsPresenterProps> = ({ componentKey }) => {
   const styles = useStyles()
 
   return (
     <View style={styles.container}>
-      <Text>MonthlyRecords</Text>
+      <Header />
+      <RecordList key={componentKey} />
     </View>
   )
 }
@@ -21,7 +24,7 @@ const useStyles = (): typeof styles => {
   const styles = useMemo(() => {
     return StyleSheet.create({
       container: {
-        backgroundColor: theme.colors.background.main,
+        backgroundColor: theme.colors.background.sub,
         flex: 1,
         width: '100%'
       }

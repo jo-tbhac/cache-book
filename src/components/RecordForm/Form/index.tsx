@@ -57,8 +57,6 @@ export const Form: FC<FormProps> = ({ record }) => {
     updateRecord(record.id, values)
       .then(() => {
         setChanged(true)
-        setRecordTitle('')
-        setRecordValue('')
       })
       .catch(() => {})
   }
