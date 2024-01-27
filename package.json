@@ -16,6 +16,7 @@
     "npm": "8.19.2"
   },
   "dependencies": {
+    "@gorhom/portal": "^1.0.14",
     "camelcase-keys": "^9.1.3",
     "dayjs": "^1.11.10",
     "expo": "~50.0.2",
