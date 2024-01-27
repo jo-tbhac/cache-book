@@ -6,13 +6,16 @@ import { useTheme } from '@/styles/hooks'
 import { RecordListItem } from '../RecordListItem'
 import { RecordListPresenterProps } from './types'
 
-export const RecordListPresenter: FC<RecordListPresenterProps> = ({ dailyRecords }) => {
+export const RecordListPresenter: FC<RecordListPresenterProps> = ({
+  dailyRecords,
+  setDailyRecords
+}) => {
   const styles = useStyles()
 
   return (
     <FlatList
       data={dailyRecords}
-      renderItem={({ item }) => <RecordListItem record={item} />}
+      renderItem={({ item }) => <RecordListItem record={item} setDailyRecords={setDailyRecords} />}
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
     />

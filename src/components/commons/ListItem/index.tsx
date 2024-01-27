@@ -13,7 +13,7 @@ export const ListItem = forwardRef<TouchableOpacity, ListItemProps>(
         ref={ref}
         onPress={onPress}
         onLongPress={onLongPress}
-        disabled={onPress == null}
+        disabled={onPress == null && onLongPress == null}
         activeOpacity={theme.styles.opacity.pressed}
         style={containerStyle}
       >

@@ -4,11 +4,11 @@ import { useDailyRecords } from './hooks'
 import { RecordListPresenter } from './presenter'
 
 export const RecordList: FC = () => {
-  const { dailyRecords } = useDailyRecords()
+  const { dailyRecords, setDailyRecords } = useDailyRecords()
 
   if (dailyRecords == null) {
     return null
   }
 
-  return <RecordListPresenter dailyRecords={dailyRecords} />
+  return <RecordListPresenter dailyRecords={dailyRecords} setDailyRecords={setDailyRecords} />
 }

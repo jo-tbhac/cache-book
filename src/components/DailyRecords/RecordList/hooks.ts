@@ -25,5 +25,5 @@ export const useDailyRecords = () => {
       .catch(() => {})
   }, [selectedDate, dailyRecords, getRecordsBy])
 
-  return { dailyRecords }
+  return { dailyRecords, setDailyRecords }
 }
