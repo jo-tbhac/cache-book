@@ -1,5 +1,5 @@
 import { FC, useMemo, useRef, useState } from 'react'
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, TextInput, View } from 'react-native'
 
 import { Button } from '@/components/commons/Button'
 import { FormLabel } from '@/components/commons/FormLabel'
@@ -85,7 +85,11 @@ export const FormPresenter: FC<FormPresenterProps> = ({
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ScrollView
+      keyboardDismissMode="on-drag"
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
       <View style={styles.sectionContainer}>
         <FormLabel>お店や品目</FormLabel>
         <TextInput
