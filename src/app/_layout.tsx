@@ -1,5 +1,6 @@
 import { PortalProvider } from '@gorhom/portal'
 import { Slot } from 'expo-router'
+import 'react-native-get-random-values'
 
 import { Preloader } from '@/components/loader/Preloader'
 import { DbProvider } from '@/components/providers/DbProvider'
