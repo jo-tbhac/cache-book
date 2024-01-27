@@ -1,17 +1,21 @@
 import { FC, useMemo } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { FlatList, StyleSheet } from 'react-native'
 
 import { useTheme } from '@/styles/hooks'
 
+import { MethodListItem } from './MethodListItem'
 import { MethodsPresenterProps } from './types'
 
-export const MethodsPresenter: FC<MethodsPresenterProps> = () => {
+export const MethodsPresenter: FC<MethodsPresenterProps> = ({ methods }) => {
   const styles = useStyles()
 
   return (
-    <View style={styles.container}>
-      <Text>Methods</Text>
-    </View>
+    <FlatList
+      data={methods}
+      renderItem={({ item }) => <MethodListItem method={item} />}
+      style={styles.container}
+      ListFooterComponent={<MethodListItem />}
+    />
   )
 }
 
@@ -21,8 +25,9 @@ const useStyles = (): typeof styles => {
   const styles = useMemo(() => {
     return StyleSheet.create({
       container: {
-        backgroundColor: theme.colors.background.main,
-        flex: 1,
+        backgroundColor: theme.colors.background.sub,
+        borderTopColor: theme.colors.border.main,
+        borderTopWidth: 1,
         width: '100%'
       }
     })

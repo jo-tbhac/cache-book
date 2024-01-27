@@ -8,9 +8,9 @@ export const useGetMethods = () => {
 
   return useCallback(() => {
     if (db == null) {
-      return
+      return Promise.reject()
     }
-    getMethods(db)
+    return getMethods(db)
   }, [db])
 }
 
@@ -20,9 +20,9 @@ export const useInsertMethod = () => {
   return useCallback(
     (values: { name: string }) => {
       if (db == null) {
-        return
+        return Promise.reject()
       }
-      insertMethod(db, values)
+      return insertMethod(db, values)
     },
     [db]
   )
@@ -34,9 +34,9 @@ export const useUpdateMethod = () => {
   return useCallback(
     (id: number, values: { name: string }) => {
       if (db == null) {
-        return
+        return Promise.reject()
       }
-      updateMethod(db, id, values)
+      return updateMethod(db, id, values)
     },
     [db]
   )
@@ -48,9 +48,9 @@ export const useDeleteMethod = () => {
   return useCallback(
     (id: number) => {
       if (db == null) {
-        return
+        return Promise.reject()
       }
-      deleteMethod(db, id)
+      return deleteMethod(db, id)
     },
     [db]
   )

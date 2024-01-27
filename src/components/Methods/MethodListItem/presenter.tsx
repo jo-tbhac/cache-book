@@ -17,12 +17,12 @@ import {
 import { ListItem } from '@/components/commons/ListItem'
 import { useTheme } from '@/styles/hooks'
 
-import { CategoryListItemPresenterProps } from './types'
+import { MethodListItemPresenterProps } from './types'
 
-export const CategoryListItemPresenter: FC<CategoryListItemPresenterProps> = ({
-  category,
-  handleSaveCategory,
-  handleDeleteCategory
+export const MethodListItemPresenter: FC<MethodListItemPresenterProps> = ({
+  method,
+  handleSaveMethod,
+  handleDeleteMethod
 }) => {
   const styles = useStyles()
   const theme = useTheme()
@@ -47,12 +47,12 @@ export const CategoryListItemPresenter: FC<CategoryListItemPresenterProps> = ({
   }
 
   const onPressDeleteButton = () => {
-    handleDeleteCategory()
+    handleDeleteMethod()
     closeActionSheet()
   }
 
   const onSubmitEditing = (event: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
-    handleSaveCategory({ name: event.nativeEvent.text })
+    handleSaveMethod({ name: event.nativeEvent.text })
     closeEditMode()
   }
 
@@ -64,7 +64,7 @@ export const CategoryListItemPresenter: FC<CategoryListItemPresenterProps> = ({
     return (
       <ListItem containerStyle={styles.container}>
         <TextInput
-          defaultValue={category?.name ?? ''}
+          defaultValue={method?.name ?? ''}
           autoFocus
           selectionColor={theme.colors.app.primary.main}
           style={styles.textInput}
@@ -81,22 +81,22 @@ export const CategoryListItemPresenter: FC<CategoryListItemPresenterProps> = ({
       <ListItem
         containerStyle={styles.container}
         onPress={openEditMode}
-        onLongPress={category == null ? undefined : openActionSheet}
+        onLongPress={method == null ? undefined : openActionSheet}
       >
-        {category == null ? (
+        {method == null ? (
           <>
             <FontAwesome name="plus" style={styles.icon} color={theme.colors.font.sub} />
-            <Text style={styles.label}>カテゴリーを追加</Text>
+            <Text style={styles.label}>支払い方法を追加</Text>
           </>
         ) : (
-          <Text style={styles.label}>{category.name}</Text>
+          <Text style={styles.label}>{method.name}</Text>
         )}
       </ListItem>
 
       <ActionSheet show={actionSheetVisible} onBackDropPress={closeActionSheet}>
         <ActionSheetItemWrapper>
           <ActionSheetItem
-            label="カテゴリーを削除"
+            label="支払い方法を削除"
             labelStyle={styles.deleteButtonLabel}
             onPress={onPressDeleteButton}
           />
