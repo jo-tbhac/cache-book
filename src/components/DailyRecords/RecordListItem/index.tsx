@@ -1,3 +1,4 @@
+import { router } from 'expo-router'
 import { FC, useMemo } from 'react'
 
 import { useDeleteRecord } from '@/hooks/records'
@@ -14,6 +15,10 @@ export const RecordListItem: FC<RecordListItemProps> = ({ record, setDailyRecord
   const category = useMemo(() => {
     return categories.find((category) => category.id === record.categoryId)
   }, [categories, record.categoryId])
+
+  const navigateEditRecordPage = () => {
+    router.push(`record-form?id=${record.id}`)
+  }
 
   const handleDeleteRecord = () => {
     deleteRecord(record.id)
@@ -32,6 +37,7 @@ export const RecordListItem: FC<RecordListItemProps> = ({ record, setDailyRecord
     <RecordListItemPresenter
       record={record}
       category={category}
+      navigateEditRecordPage={navigateEditRecordPage}
       handleDeleteRecord={handleDeleteRecord}
     />
   )

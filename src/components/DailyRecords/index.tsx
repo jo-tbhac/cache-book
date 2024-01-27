@@ -32,7 +32,7 @@ export const DailyRecords: FC = () => {
   }, [searchParams.key])
 
   const navigateFormPage = () => {
-    router.push('form')
+    router.push('record-form')
   }
 
   return <DailyRecordsPresenter navigateFormPage={navigateFormPage} componentKey={componentKey} />

@@ -11,5 +11,6 @@ export interface RecordListItemProps {
 export interface RecordListItemPresenterProps {
   record: IORecord
   category: Category | undefined
+  navigateEditRecordPage: () => void
   handleDeleteRecord: () => void
 }

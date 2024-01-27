@@ -15,6 +15,7 @@ import { RecordListItemPresenterProps } from './types'
 export const RecordListItemPresenter: FC<RecordListItemPresenterProps> = ({
   record,
   category,
+  navigateEditRecordPage,
   handleDeleteRecord
 }) => {
   const styles = useStyles()
@@ -36,7 +37,11 @@ export const RecordListItemPresenter: FC<RecordListItemPresenterProps> = ({
 
   return (
     <>
-      <ListItem containerStyle={styles.container} onLongPress={openActionSheet}>
+      <ListItem
+        containerStyle={styles.container}
+        onPress={navigateEditRecordPage}
+        onLongPress={openActionSheet}
+      >
         <View style={styles.name}>
           <Text style={styles.nameText}>{record.name}</Text>
         </View>

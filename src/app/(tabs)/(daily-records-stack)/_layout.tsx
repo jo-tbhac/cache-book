@@ -17,7 +17,10 @@ export default function SettingsLayout() {
       }}
     >
       <Stack.Screen name="daily-records/index" options={{ headerShown: false }} />
-      <Stack.Screen name="form/index" options={{ presentation: 'modal', title: '支出の記録' }} />
+      <Stack.Screen
+        name="record-form/index"
+        options={{ presentation: 'modal', title: '支出の記録' }}
+      />
     </Stack>
   )
 }

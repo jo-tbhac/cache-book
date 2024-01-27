@@ -2,6 +2,11 @@ import { Dispatch, SetStateAction } from 'react'
 
 import { Category } from '@/types/categories'
 import { Method } from '@/types/methods'
+import { IORecord } from '@/types/records'
+
+export interface FormProps {
+  record: IORecord | null
+}
 
 export interface FormPresenterProps {
   categories: Category[]
