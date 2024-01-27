@@ -15,7 +15,7 @@ export default function AppLayout() {
       }}
     >
       <Tabs.Screen
-        name="daily-records/index"
+        name="(daily-records-stack)"
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="pen" color={color} />,
           tabBarLabel: '入力'

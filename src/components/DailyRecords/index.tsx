@@ -1,9 +1,12 @@
+import { router } from 'expo-router'
 import { FC } from 'react'
 
 import { DailyRecordsPresenter } from './presenter'
 
 export const DailyRecords: FC = () => {
-  const handlePressFloatButton = () => {}
+  const navigateFormPage = () => {
+    router.push('form')
+  }
 
-  return <DailyRecordsPresenter handlePressFloatButton={handlePressFloatButton} />
+  return <DailyRecordsPresenter navigateFormPage={navigateFormPage} />
 }

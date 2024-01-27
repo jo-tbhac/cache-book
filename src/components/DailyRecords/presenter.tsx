@@ -9,9 +9,7 @@ import { Header } from './Header'
 import { RecordList } from './RecordList'
 import { DailyRecordsPresenterProps } from './types'
 
-export const DailyRecordsPresenter: FC<DailyRecordsPresenterProps> = ({
-  handlePressFloatButton
-}) => {
+export const DailyRecordsPresenter: FC<DailyRecordsPresenterProps> = ({ navigateFormPage }) => {
   const styles = useStyles()
   const theme = useTheme()
 
@@ -19,7 +17,7 @@ export const DailyRecordsPresenter: FC<DailyRecordsPresenterProps> = ({
     <View style={styles.container}>
       <Header />
       <RecordList />
-      <FloatButton onPress={handlePressFloatButton}>
+      <FloatButton onPress={navigateFormPage}>
         <FontAwesome name="plus" color={theme.colors.font.contrast} size={32} />
       </FloatButton>
     </View>

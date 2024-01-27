@@ -16,9 +16,8 @@ export default function SettingsLayout() {
         headerBackTitleVisible: false
       }}
     >
-      <Stack.Screen name="settings/index" options={{ title: '設定' }} />
-      <Stack.Screen name="categories/index" options={{ title: 'カテゴリーを編集' }} />
-      <Stack.Screen name="methods/index" options={{ title: '支払い方法を編集' }} />
+      <Stack.Screen name="daily-records/index" options={{ headerShown: false }} />
+      <Stack.Screen name="form/index" options={{ presentation: 'modal', title: '支出の記録' }} />
     </Stack>
   )
 }
