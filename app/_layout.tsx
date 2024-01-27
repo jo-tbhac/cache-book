@@ -1,15 +1,20 @@
+import { PortalProvider } from '@gorhom/portal'
 import { Slot } from 'expo-router'
 
+import { Preloader } from '@/components/loader/Preloader'
 import { DbProvider } from '@/components/providers/DbProvider'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
-import { useTheme } from '@/styles/hooks'
 
 export default function AppLayout() {
   return (
     <DbProvider>
-      <ThemeProvider>
-        <Slot />
-      </ThemeProvider>
+      <Preloader>
+        <PortalProvider>
+          <ThemeProvider>
+            <Slot />
+          </ThemeProvider>
+        </PortalProvider>
+      </Preloader>
     </DbProvider>
   )
 }

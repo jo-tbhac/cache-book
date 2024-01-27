@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import type { ListItemProps } from './types'
 
 export const ListItem = forwardRef<TouchableOpacity, ListItemProps>(
-  ({ children, onPress, containerStyle }, ref) => {
+  ({ children, onPress, onLongPress, containerStyle }, ref) => {
     const styles = useStyles()
     const theme = useTheme()
 
@@ -12,6 +12,7 @@ export const ListItem = forwardRef<TouchableOpacity, ListItemProps>(
       <TouchableOpacity
         ref={ref}
         onPress={onPress}
+        onLongPress={onLongPress}
         disabled={onPress == null}
         activeOpacity={theme.styles.opacity.pressed}
         style={containerStyle}

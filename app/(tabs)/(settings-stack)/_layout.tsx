@@ -1,3 +1,4 @@
+import { PortalProvider } from '@gorhom/portal'
 import { Stack } from 'expo-router/stack'
 import { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
@@ -10,17 +11,15 @@ export default function SettingsLayout() {
 
   return (
     <Stack
-      screenOptions={{ headerTintColor: theme.colors.font.contrast, headerStyle: styles.header }}
+      screenOptions={{
+        headerTintColor: theme.colors.font.contrast,
+        headerStyle: styles.header,
+        headerBackTitleVisible: false
+      }}
     >
       <Stack.Screen name="settings/index" options={{ title: '設定' }} />
-      <Stack.Screen
-        name="categories/index"
-        options={{ presentation: 'modal', title: 'カテゴリーを編集' }}
-      />
-      <Stack.Screen
-        name="methods/index"
-        options={{ presentation: 'modal', title: '支払い方法を編集' }}
-      />
+      <Stack.Screen name="categories/index" options={{ title: 'カテゴリーを編集' }} />
+      <Stack.Screen name="methods/index" options={{ title: '支払い方法を編集' }} />
     </Stack>
   )
 }

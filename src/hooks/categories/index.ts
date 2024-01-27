@@ -8,9 +8,9 @@ export const useGetCategories = () => {
 
   return useCallback(() => {
     if (db == null) {
-      return
+      return Promise.reject()
     }
-    getCategories(db)
+    return getCategories(db)
   }, [db])
 }
 
@@ -20,9 +20,9 @@ export const useInsertCategory = () => {
   return useCallback(
     (values: { name: string }) => {
       if (db == null) {
-        return
+        return Promise.reject()
       }
-      insertCategory(db, values)
+      return insertCategory(db, values)
     },
     [db]
   )
@@ -34,9 +34,9 @@ export const useUpdateCategory = () => {
   return useCallback(
     (id: number, values: { name: string }) => {
       if (db == null) {
-        return
+        return Promise.reject()
       }
-      updateCategory(db, id, values)
+      return updateCategory(db, id, values)
     },
     [db]
   )
@@ -48,9 +48,9 @@ export const useDeleteCategory = () => {
   return useCallback(
     (id: number) => {
       if (db == null) {
-        return
+        return Promise.reject()
       }
-      deleteCategory(db, id)
+      return deleteCategory(db, id)
     },
     [db]
   )

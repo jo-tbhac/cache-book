@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
-import type { TouchableOpacityProps, ViewStyle, StyleProp } from 'react-native'
+import type { StyleProp, TouchableOpacityProps, ViewStyle } from 'react-native'
 
-export type ListItemProps = Pick<TouchableOpacityProps, 'onPress' | 'testID'> & {
+export type ListItemProps = Pick<TouchableOpacityProps, 'onPress' | 'onLongPress'> & {
   children: ReactNode
   disableGutters?: boolean
   containerStyle?: StyleProp<ViewStyle>

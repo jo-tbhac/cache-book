@@ -1,2 +1,3 @@
 AUTOINCREMENT
 camelcase
+xmark
