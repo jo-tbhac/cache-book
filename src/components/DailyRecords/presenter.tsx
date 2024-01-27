@@ -9,14 +9,17 @@ import { Header } from './Header'
 import { RecordList } from './RecordList'
 import { DailyRecordsPresenterProps } from './types'
 
-export const DailyRecordsPresenter: FC<DailyRecordsPresenterProps> = ({ navigateFormPage }) => {
+export const DailyRecordsPresenter: FC<DailyRecordsPresenterProps> = ({
+  navigateFormPage,
+  componentKey
+}) => {
   const styles = useStyles()
   const theme = useTheme()
 
   return (
     <View style={styles.container}>
       <Header />
-      <RecordList />
+      <RecordList key={componentKey} />
       <FloatButton onPress={navigateFormPage}>
         <FontAwesome name="plus" color={theme.colors.font.contrast} size={32} />
       </FloatButton>

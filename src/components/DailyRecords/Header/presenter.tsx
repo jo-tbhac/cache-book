@@ -1,6 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome6'
 import { FC, useMemo } from 'react'
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useTheme } from '@/styles/hooks'
 
@@ -14,21 +15,23 @@ export const HeaderPresenter: FC<HeaderPresenterProps> = ({
   const styles = useStyles()
   const theme = useTheme()
 
+  const insets = useSafeAreaInsets()
+
   const dateString = useMemo(() => selectedDate.format('YYYY/MM/DD'), [selectedDate])
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top + theme.styles.padding.xSmall }]}>
       <TouchableOpacity style={styles.angleButton} onPress={decreaseDate}>
-        <FontAwesome name="angle-left" size={20} color={theme.colors.font.sub} />
+        <FontAwesome name="angle-left" size={20} color={theme.colors.font.contrast} />
       </TouchableOpacity>
       <Text style={styles.title}>
         {dateString}
         の記録
       </Text>
       <TouchableOpacity style={styles.angleButton} onPress={increaseDate}>
-        <FontAwesome name="angle-right" size={20} color={theme.colors.font.sub} />
+        <FontAwesome name="angle-right" size={20} color={theme.colors.font.contrast} />
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   )
 }
 
@@ -39,20 +42,20 @@ const useStyles = (): typeof styles => {
     return StyleSheet.create({
       container: {
         alignItems: 'center',
+        backgroundColor: theme.colors.app.primary.main,
         flexDirection: 'row',
-        marginBottom: theme.styles.margin.xLarge,
+        paddingBottom: theme.styles.padding.small,
         paddingHorizontal: theme.styles.padding.medium,
-        paddingVertical: theme.styles.padding.small,
         width: '100%'
       },
       angleButton: {
         paddingHorizontal: theme.styles.padding.medium,
-        paddingVertical: theme.styles.padding.xSmall
+        paddingVertical: theme.styles.padding.xxSmall
       },
       title: {
-        color: theme.colors.font.main,
+        color: theme.colors.font.contrast,
         flex: 1,
-        fontSize: theme.styles.fontSize.xLarge,
+        fontSize: theme.styles.fontSize.large,
         fontWeight: theme.styles.fontWeight.bold,
         textAlign: 'center'
       }

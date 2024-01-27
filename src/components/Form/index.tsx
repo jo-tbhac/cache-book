@@ -1,6 +1,7 @@
 import { router } from 'expo-router'
 import { Stack } from 'expo-router/stack'
 import { FC, useState } from 'react'
+import { v4 as uuidV4 } from 'uuid'
 
 import { CloseButton } from '@/components/commons/CloseButton'
 import { useInsertRecord } from '@/hooks/records'
@@ -20,6 +21,7 @@ export const Form: FC = () => {
 
   const [recordTitle, setRecordTitle] = useState('')
   const [recordValue, setRecordValue] = useState('')
+  const [changed, setChanged] = useState(false)
 
   const [selectedCategoryValue, setSelectedCategoryValue] = useState(0)
   const [selectedMethodValue, setSelectedMethodValue] = useState(0)
@@ -40,15 +42,23 @@ export const Form: FC = () => {
 
     insertRecord(values)
       .then(() => {
+        setChanged(true)
         setRecordTitle('')
         setRecordValue('')
       })
       .catch(() => {})
   }
 
+  const goBackDailyRecordsPage = () => {
+    const searchParams = changed ? `?key=${uuidV4()}` : ''
+    router.navigate(`daily-records${searchParams}`)
+  }
+
   return (
     <>
-      <Stack.Screen options={{ headerRight: () => <CloseButton onPress={router.back} /> }} />
+      <Stack.Screen
+        options={{ headerRight: () => <CloseButton onPress={goBackDailyRecordsPage} /> }}
+      />
       <FormPresenter
         categories={categories}
         methods={methods}
