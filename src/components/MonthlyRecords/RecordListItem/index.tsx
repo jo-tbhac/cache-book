@@ -7,7 +7,12 @@ import { useMethods } from '@/store/methods'
 import { RecordListItemPresenter } from './presenter'
 import { RecordListItemProps } from './types'
 
-export const RecordListItem: FC<RecordListItemProps> = ({ record, totalExpenses }) => {
+export const RecordListItem: FC<RecordListItemProps> = ({
+  record,
+  totalExpenses,
+  dateString,
+  previousDateString
+}) => {
   const categories = useCategories((state) => state.categories)
   const methods = useMethods((state) => state.methods)
 
@@ -25,6 +30,8 @@ export const RecordListItem: FC<RecordListItemProps> = ({ record, totalExpenses 
       category={category}
       method={method}
       totalExpenses={totalExpenses}
+      dateString={dateString}
+      previousDateString={previousDateString}
     />
   )
 }

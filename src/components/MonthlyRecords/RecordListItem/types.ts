@@ -5,6 +5,8 @@ import { IORecord } from '@/types/records'
 export interface RecordListItemProps {
   record: IORecord
   totalExpenses: number
+  dateString: string
+  previousDateString: string
 }
 
 export interface RecordListItemPresenterProps {
@@ -12,4 +14,6 @@ export interface RecordListItemPresenterProps {
   category: Category | undefined
   method: Method | undefined
   totalExpenses: number
+  dateString: string
+  previousDateString: string
 }

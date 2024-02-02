@@ -10,12 +10,21 @@ export const RecordListItemPresenter: FC<RecordListItemPresenterProps> = ({
   record,
   category,
   method,
-  totalExpenses
+  totalExpenses,
+  dateString,
+  previousDateString
 }) => {
   const styles = useStyles()
 
+  const dateVisible = dateString && dateString === previousDateString
+
   return (
     <ListItem containerStyle={styles.container}>
+      <View style={styles.date}>
+        <Text style={[styles.dateText, dateVisible ? { color: 'transparent' } : undefined]}>
+          {dateString}
+        </Text>
+      </View>
       <View style={styles.name}>
         <Text style={styles.nameText}>{record.name}</Text>
       </View>
@@ -44,6 +53,13 @@ const useStyles = (): typeof styles => {
         backgroundColor: theme.colors.background.main,
         borderBottomColor: theme.colors.border.main,
         borderBottomWidth: 1
+      },
+      date: {
+        paddingRight: theme.styles.padding.xxSmall
+      },
+      dateText: {
+        color: theme.colors.font.main,
+        fontSize: theme.styles.fontSize.small
       },
       name: {
         flex: 2,

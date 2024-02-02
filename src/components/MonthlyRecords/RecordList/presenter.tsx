@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { FC, useMemo } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 
@@ -21,9 +22,22 @@ export const RecordListPresenter: FC<RecordListPresenterProps> = ({
     <>
       <FlatList
         data={monthlyRecords}
-        renderItem={({ item, index }) => (
-          <RecordListItem record={item} totalExpenses={totalExpenses(index, item.methodId)} />
-        )}
+        renderItem={({ item, index }) => {
+          const dateString = dayjs(item.date).format('MM/DD')
+          const previousRecord = monthlyRecords[index - 1]
+          const previousDateString = previousRecord
+            ? dayjs(previousRecord.date).format('MM/DD')
+            : ''
+
+          return (
+            <RecordListItem
+              record={item}
+              totalExpenses={totalExpenses(index, item.methodId)}
+              dateString={dateString}
+              previousDateString={previousDateString}
+            />
+          )
+        }}
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
       />
