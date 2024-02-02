@@ -33,7 +33,8 @@ const useStyles = (): typeof styles => {
       },
       contentContainer: {
         borderTopColor: theme.colors.border.main,
-        borderTopWidth: 1
+        borderTopWidth: 1,
+        paddingBottom: 90
       }
     })
   }, [theme])
