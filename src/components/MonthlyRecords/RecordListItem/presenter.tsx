@@ -62,7 +62,7 @@ const useStyles = (): typeof styles => {
         fontSize: theme.styles.fontSize.small
       },
       name: {
-        flex: 2,
+        flex: 1,
         paddingHorizontal: theme.styles.padding.xxSmall
       },
       nameText: {
@@ -70,8 +70,8 @@ const useStyles = (): typeof styles => {
         fontSize: theme.styles.fontSize.small
       },
       value: {
-        flex: 1,
-        paddingHorizontal: theme.styles.padding.xxSmall
+        paddingHorizontal: theme.styles.padding.xxSmall,
+        width: 60
       },
       valueText: {
         color: theme.colors.font.error,
@@ -79,8 +79,8 @@ const useStyles = (): typeof styles => {
         textAlign: 'right'
       },
       method: {
-        flex: 1,
-        paddingHorizontal: theme.styles.padding.xxSmall
+        paddingHorizontal: theme.styles.padding.xxSmall,
+        width: 45
       },
       methodText: {
         color: theme.colors.font.main,
@@ -88,7 +88,7 @@ const useStyles = (): typeof styles => {
       },
       totalExpenses: {
         paddingHorizontal: theme.styles.padding.xxSmall,
-        width: 80
+        width: 60
       },
       totalExpensesText: {
         color: theme.colors.font.error,
@@ -96,8 +96,8 @@ const useStyles = (): typeof styles => {
         textAlign: 'right'
       },
       category: {
-        paddingHorizontal: theme.styles.padding.xxSmall,
-        width: 80
+        paddingLeft: theme.styles.padding.xxSmall,
+        width: 70
       },
       categoryText: {
         color: theme.colors.font.main,
