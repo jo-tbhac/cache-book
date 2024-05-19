@@ -1,5 +1,5 @@
 import camelcaseKeys from 'camelcase-keys'
-import * as SQLite from 'expo-sqlite'
+import * as SQLite from 'expo-sqlite/legacy'
 
 import { IORecord } from '@/types/records'
 
@@ -84,6 +84,41 @@ export const insertRecord = (db: SQLite.SQLiteDatabase, values: Omit<IORecord, '
             }
           }
         )
+      },
+      (error) => {
+        reject(error)
+      }
+    )
+  })
+}
+
+export const insertRecords = (db: SQLite.SQLiteDatabase, values: Array<Omit<IORecord, 'id'>>) => {
+  const query = `
+    INSERT INTO records (name, value, type, date, category_id, method_id)
+    VALUES ${Array.from({ length: values.length }, () => '(?, ?, ?, ?, ?, ?)').join(',')}`
+
+  const args = values
+    .flatMap((value) => [
+      value.name,
+      value.value,
+      value.type,
+      value.date,
+      value.categoryId || '',
+      value.methodId
+    ])
+    .flat()
+
+  return new Promise<void>((resolve, reject) => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(query, args, (_, result) => {
+          console.log(result)
+          // if (result.insertId) {
+
+          // } else {
+          //   reject(new Error('fail to get insertId'))
+          // }
+        })
       },
       (error) => {
         reject(error)
