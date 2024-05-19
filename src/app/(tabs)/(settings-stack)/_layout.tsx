@@ -19,6 +19,11 @@ export default function SettingsLayout() {
       <Stack.Screen name="settings/index" options={{ title: '設定' }} />
       <Stack.Screen name="categories/index" options={{ title: 'カテゴリーを編集' }} />
       <Stack.Screen name="methods/index" options={{ title: '支払い方法を編集' }} />
+      <Stack.Screen name="subscriptions/index" options={{ title: 'サブスクリプションを編集' }} />
+      <Stack.Screen
+        name="subscription-form/index"
+        options={{ presentation: 'modal', title: 'サブスクリプションを編集' }}
+      />
     </Stack>
   )
 }

@@ -19,6 +19,7 @@ export const useCreateTable = (db: SQLite.SQLiteDatabase | null) => {
       tx.executeSql(CREATE_CATEGORIES_TABLE)
       tx.executeSql(CREATE_METHODS_TABLE)
       tx.executeSql(CREATE_RECORDS_TABLE)
+      tx.executeSql(CREATE_SUBSCRIPTIONS_TABLE)
     })
   }, [db])
 }
@@ -42,6 +43,17 @@ const CREATE_RECORDS_TABLE = `
     value INTEGER NOT NULL,
     type TEXT NOT NULL,
     date TEXT NOT NULL,
+    category_id INTEGER,
+    method_id INTEGER NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE SET NULL,
+    FOREIGN KEY (method_id) REFERENCES methods (id) ON DELETE CASCADE
+  )`
+
+const CREATE_SUBSCRIPTIONS_TABLE = `
+  CREATE TABLE IF NOT EXISTS subscriptions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    value INTEGER NOT NULL,
     category_id INTEGER,
     method_id INTEGER NOT NULL,
     FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE SET NULL,

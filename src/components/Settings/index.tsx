@@ -12,10 +12,15 @@ export const Settings: FC = () => {
     router.push('methods')
   }
 
+  const navigateSubscriptionsPage = () => {
+    router.push('subscriptions')
+  }
+
   return (
     <SettingsPresenter
       navigateCategoriesPage={navigateCategoriesPage}
       navigateMethodsPage={navigateMethodsPage}
+      navigateSubscriptionsPage={navigateSubscriptionsPage}
     />
   )
 }

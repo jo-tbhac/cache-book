@@ -10,10 +10,10 @@ import { SettingsPresenterProps } from './types'
 
 export const SettingsPresenter: FC<SettingsPresenterProps> = ({
   navigateCategoriesPage,
-  navigateMethodsPage
+  navigateMethodsPage,
+  navigateSubscriptionsPage
 }) => {
   const styles = useStyles()
-  const theme = useTheme()
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -23,6 +23,10 @@ export const SettingsPresenter: FC<SettingsPresenterProps> = ({
       </ListItem>
       <ListItem containerStyle={styles.listItem} onPress={navigateMethodsPage}>
         <Text style={styles.text}>支払い方法を編集</Text>
+        <FontAwesome name="angle-right" color={colors.font.sub} />
+      </ListItem>
+      <ListItem containerStyle={styles.listItem} onPress={navigateSubscriptionsPage}>
+        <Text style={styles.text}>サブスクリプションを編集</Text>
         <FontAwesome name="angle-right" color={colors.font.sub} />
       </ListItem>
     </ScrollView>
