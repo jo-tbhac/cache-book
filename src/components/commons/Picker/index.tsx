@@ -1,7 +1,7 @@
 import { Picker as NativePicker } from '@react-native-picker/picker'
 import { FC, useMemo, useState } from 'react'
 import { LayoutChangeEvent, StyleSheet, View } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import Animated, { useSharedValue, withTiming } from 'react-native-reanimated'
 
 import { useTheme } from '@/styles/hooks'
 
@@ -21,16 +21,10 @@ export const Picker: FC<PickerProps> = ({ items, expanded, selectedValue, handle
     }
   }
 
-  const animatedStyle = useAnimatedStyle(() => {
-    animatedHeight.value = expanded ? withTiming(height) : withTiming(0)
-
-    return {
-      height: animatedHeight.value
-    }
-  }, [expanded, height])
+  animatedHeight.value = expanded ? withTiming(height) : withTiming(0)
 
   return (
-    <Animated.View style={[animatedStyle, styles.animatedContainer]}>
+    <Animated.View style={[{ height: animatedHeight }, styles.animatedContainer]}>
       <View style={styles.container} onLayout={onLayout}>
         <NativePicker
           selectedValue={selectedValue}
