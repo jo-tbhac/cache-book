@@ -4,7 +4,7 @@ import { StyleSheet, TouchableHighlight, View } from 'react-native'
 import type { FloatButtonProps } from './types'
 
 export const FloatButton = forwardRef<TouchableHighlight, FloatButtonProps>(
-  ({ onPress, children, position = { bottom: 10, right: 10 } }, ref) => {
+  ({ onPress, onLongPress, children, position = { bottom: 10, right: 10 } }, ref) => {
     const styles = useStyles()
 
     const { colors } = useTheme()
@@ -14,6 +14,7 @@ export const FloatButton = forwardRef<TouchableHighlight, FloatButtonProps>(
         ref={ref}
         style={[styles.touchableContainer, position]}
         onPress={onPress}
+        onLongPress={onLongPress}
         underlayColor={colors.background.main}
       >
         <View style={styles.container}>{children}</View>
