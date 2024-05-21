@@ -1,7 +1,14 @@
 import { useCallback } from 'react'
 
 import { useDb } from '@/db'
-import { deleteRecord, getRecord, getRecordsBy, insertRecord, updateRecord } from '@/query/records'
+import {
+  deleteRecord,
+  getRecord,
+  getRecordsBy,
+  insertRecord,
+  insertRecords,
+  updateRecord
+} from '@/query/records'
 import { IORecord } from '@/types/records'
 
 export const useGetRecordsBy = () => {
@@ -41,6 +48,20 @@ export const useInsertRecord = () => {
         return Promise.reject()
       }
       return insertRecord(db, values)
+    },
+    [db]
+  )
+}
+
+export const useInsertRecords = () => {
+  const db = useDb()
+
+  return useCallback(
+    (values: Array<Omit<IORecord, 'id'>>) => {
+      if (db == null) {
+        return Promise.reject()
+      }
+      return insertRecords(db, values)
     },
     [db]
   )

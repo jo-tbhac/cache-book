@@ -108,16 +108,11 @@ export const insertRecords = (db: SQLite.SQLiteDatabase, values: Array<Omit<IORe
     ])
     .flat()
 
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<{ rowsAffected: number }>((resolve, reject) => {
     db.transaction(
       (tx) => {
         tx.executeSql(query, args, (_, result) => {
-          console.log(result)
-          // if (result.insertId) {
-
-          // } else {
-          //   reject(new Error('fail to get insertId'))
-          // }
+          resolve({ rowsAffected: result.rowsAffected })
         })
       },
       (error) => {

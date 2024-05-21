@@ -10,7 +10,7 @@ export const getSubscriptions = (db: SQLite.SQLiteDatabase) => {
     db.transaction(
       (tx) => {
         tx.executeSql(query, [], (_, result) => {
-          const items: Subscription[] = result.rows._array
+          const items = camelcaseKeys(result.rows._array, { deep: true })
           resolve(items)
         })
       },

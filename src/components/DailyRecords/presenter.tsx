@@ -1,7 +1,13 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome6'
-import { FC, useMemo } from 'react'
+import { FC, useMemo, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
+import { ActionSheet } from '@/components/commons/ActionSheet'
+import { ActionSheetItem } from '@/components/commons/ActionSheetItem'
+import {
+  ActionSheetCancelItemWrapper,
+  ActionSheetItemWrapper
+} from '@/components/commons/ActionSheetItemWrapper'
 import { FloatButton } from '@/components/commons/FloatButton'
 import { useTheme } from '@/styles/hooks'
 
@@ -11,7 +17,11 @@ import { DailyRecordsPresenterProps } from './types'
 
 export const DailyRecordsPresenter: FC<DailyRecordsPresenterProps> = ({
   navigateFormPage,
-  componentKey
+  componentKey,
+  actionSheetVisible,
+  openActionSheet,
+  closeActionSheet,
+  handleImportSubscriptions
 }) => {
   const styles = useStyles()
   const theme = useTheme()
@@ -20,9 +30,23 @@ export const DailyRecordsPresenter: FC<DailyRecordsPresenterProps> = ({
     <View style={styles.container}>
       <Header />
       <RecordList key={componentKey} />
-      <FloatButton onPress={navigateFormPage}>
+
+      <FloatButton onPress={navigateFormPage} onLongPress={openActionSheet}>
         <FontAwesome name="plus" color={theme.colors.font.contrast} size={32} />
       </FloatButton>
+
+      <ActionSheet show={actionSheetVisible} onBackDropPress={closeActionSheet}>
+        <ActionSheetItemWrapper>
+          <ActionSheetItem
+            label="サブスクリプションのレコードを追加"
+            onPress={handleImportSubscriptions}
+          />
+        </ActionSheetItemWrapper>
+
+        <ActionSheetCancelItemWrapper>
+          <ActionSheetItem label="キャンセル" onPress={closeActionSheet} />
+        </ActionSheetCancelItemWrapper>
+      </ActionSheet>
     </View>
   )
 }
