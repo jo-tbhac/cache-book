@@ -9,7 +9,9 @@
     "web": "expo start --web",
     "lint": "biome lint ./src",
     "cspell": "cspell -c ./.cspell/cspell.json",
-    "scaffdog": "scaffdog generate"
+    "scaffdog": "scaffdog generate",
+    "build:preview": "eas build --profile preview",
+    "update:preview": "eas update --channel preview"
   },
   "volta": {
     "node": "18.12.1",
